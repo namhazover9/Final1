@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace FinalWeb1.Migrations
+namespace FinalWeb1.DataAccess.Migrations
 {
     /// <inheritdoc />
     public partial class AddCategoryTable : Migration

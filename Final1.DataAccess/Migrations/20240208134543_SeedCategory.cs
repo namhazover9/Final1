@@ -4,7 +4,7 @@
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace FinalWeb1.Migrations
+namespace FinalWeb1.DataAccess.Migrations
 {
     /// <inheritdoc />
     public partial class SeedCategory : Migration

@@ -1,4 +1,4 @@
-﻿using FinalWeb1.Data;
+﻿using FinalWeb1.DataAccess.Data;
 using FinalWeb1.Models;
 using Microsoft.AspNetCore.Mvc;
 

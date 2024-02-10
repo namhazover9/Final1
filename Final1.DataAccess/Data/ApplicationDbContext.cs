@@ -1,7 +1,7 @@
 ﻿using FinalWeb1.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace FinalWeb1.Data
+namespace FinalWeb1.DataAccess.Data
 {
     public class ApplicationDbContext : DbContext
     {

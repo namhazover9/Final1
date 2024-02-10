@@ -1,4 +1,5 @@
-using FinalWeb1.Data;
+
+using FinalWeb1.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
