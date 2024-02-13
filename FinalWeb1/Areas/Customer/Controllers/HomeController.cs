@@ -2,8 +2,9 @@ using FinalWeb1.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace FinalWeb1.Controllers
+namespace FinalWeb1.Areas.Customer.Controllers
 {
+    [Area("Customer")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
