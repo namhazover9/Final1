@@ -3,6 +3,7 @@ using FinalWeb1.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinalWeb1.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240214145450_addProductToDb")]
+    partial class addProductToDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -70,9 +73,6 @@ namespace FinalWeb1.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -98,15 +98,12 @@ namespace FinalWeb1.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
-
                     b.ToTable("Products");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            CategoryId = 2,
                             Description = "Praesent vitae sodales libero.. ",
                             Gender = "Male",
                             Material = "Cotton",
@@ -117,7 +114,6 @@ namespace FinalWeb1.DataAccess.Migrations
                         new
                         {
                             Id = 2,
-                            CategoryId = 1,
                             Description = "Praesent vitae sodales libero.. ",
                             Gender = "Unisex",
                             Material = "Draper",
@@ -128,25 +124,13 @@ namespace FinalWeb1.DataAccess.Migrations
                         new
                         {
                             Id = 3,
-                            CategoryId = 1,
-                            Description = "Praesent vitae sodales libero..Praesent vitae sodales libero..Praesent vitae sodales libero..Praesent vitae sodales libero..Praesent vitae sodales libero..",
+                            Description = "",
                             Gender = "Unisex",
                             Material = "Cotton",
                             Name = "Oversized T-Shirt",
                             Price = 3.9900000000000002,
-                            Size = "XL"
+                            Size = ""
                         });
-                });
-
-            modelBuilder.Entity("FinalWeb1.Models.Product", b =>
-                {
-                    b.HasOne("FinalWeb1.Models.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
                 });
 #pragma warning restore 612, 618
         }
