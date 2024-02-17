@@ -30,7 +30,8 @@ namespace FinalWeb1.DataAccess.Data
                     Size = "M",
                     Gender = "Male",
                     Material = "Cotton",
-                    CategoryId = 2
+                    CategoryId = 2,
+                    ImageUrl = ""
                 },
                 new Product
                 {
@@ -41,7 +42,8 @@ namespace FinalWeb1.DataAccess.Data
                     Size = "M",
                     Gender = "Unisex",
                     Material = "Draper",
-                    CategoryId = 1
+                    CategoryId = 1,
+                    ImageUrl = ""
                 },
                 new Product
                 {
@@ -52,7 +54,8 @@ namespace FinalWeb1.DataAccess.Data
                     Size = "XL",
                     Gender = "Unisex",
                     Material = "Cotton",
-                    CategoryId = 1
+                    CategoryId = 4,
+                    ImageUrl = ""
                 });
 
         }
