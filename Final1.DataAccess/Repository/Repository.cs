@@ -27,37 +27,37 @@ namespace FinalWeb1.DataAccess.Repository
             dbSet.Add(entity);
         }
 
-        public T Get(Expression<Func<T, bool>> filter, string? includeProperties = null)
+        public T Get(Expression<Func<T, bool>> filter, string? includeProperties = null) // get the filter and the include properties
         {
             IQueryable<T> query = dbSet;
             query = query.Where(filter);
             if (!string.IsNullOrEmpty(includeProperties))
             {
                 foreach (var includeProp in includeProperties
-                    .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                    .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)) 
                 {
                     query = query.Include(includeProp);
                 }
             }
-            return query.FirstOrDefault();
+            return query.FirstOrDefault(); // return the first or default
 
         }
 
-        public IEnumerable<T> GetAll(string? includeProperties = null)
+        public IEnumerable<T> GetAll(string? includeProperties = null) // get all the properties
         {
             IQueryable<T> query = dbSet;
-            if (!string.IsNullOrEmpty(includeProperties))
+            if (!string.IsNullOrEmpty(includeProperties)) 
             {
                 foreach (var includeProp in includeProperties
-                    .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                    .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)) // split the string by the comma
                 {
-                    query = query.Include(includeProp);
+                    query = query.Include(includeProp); // include the properties
                 }
             }
-            return query.ToList();
+            return query.ToList(); // return the list of the query
         }
 
-        public void Remove(T entity)
+        public void Remove(T entity) 
         {
             dbSet.Remove(entity);
         }
