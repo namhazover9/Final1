@@ -2,12 +2,15 @@
 using FinalWeb1.DataAccess.Repository.IRepository;
 using FinalWeb1.Models;
 using FinalWeb1.Models.ViewModels;
+using FinalWeb1.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace FinalWeb1.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = SD.Role_Admin)]
     public class ProductController : Controller
     {
         private readonly IUnitOfWork _unitOfWork; // to access the database
@@ -111,7 +114,7 @@ namespace FinalWeb1.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            List<Product> objProductList = _unitOfWork.Product.GetAll(includeProperties: "Category").ToList();
+            List<Product> objProductList = _unitOfWork.Product.GetAll(includeProperties: "Category").ToList(); 
             return Json(new { data = objProductList });
         }
 
@@ -121,7 +124,7 @@ namespace FinalWeb1.Areas.Admin.Controllers
             var productToBeDeleted = _unitOfWork.Product.Get(u => u.Id == id);
             if (productToBeDeleted == null)
             {
-                return Json(new { success = false, message = "Error while deleting" }); 
+                return Json(new { success = false, message = "Error while deleting" });  
             }
 
             var oldImagePath =

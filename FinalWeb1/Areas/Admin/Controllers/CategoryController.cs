@@ -1,11 +1,14 @@
 ﻿using FinalWeb1.DataAccess.Data;
 using FinalWeb1.DataAccess.Repository.IRepository;
 using FinalWeb1.Models;
+using FinalWeb1.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinalWeb1.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = SD.Role_Admin)]
     public class CategoryController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

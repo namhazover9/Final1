@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace FinalWeb1.Utility
 {
-    public static class SD
+    // Static Data
+    public static class SD 
     {
+        public const string Role_Customer = "Customer";
+        public const string Role_Seller = "Seller";
+        public const string Role_Admin = "Admin";    
     }
 }
