@@ -1,8 +1,10 @@
 using FinalWeb1.DataAccess.Repository;
 using FinalWeb1.DataAccess.Repository.IRepository;
 using FinalWeb1.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace FinalWeb1.Areas.Customer.Controllers
 {
@@ -26,8 +28,41 @@ namespace FinalWeb1.Areas.Customer.Controllers
 
         public IActionResult Details(int productId)
         {
-            Product product = _unitOfWork.Product.Get(u => u.Id == productId, includeProperties: "Category"); // get the product and its category
-            return View(product);
+            // Get the product and include the category
+            ShoppingCart cart = new() 
+            {
+                Product = _unitOfWork.Product.Get(u => u.Id == productId, includeProperties: "Category"), 
+                Count = 1, 
+                ProductId = productId
+            };
+            return View(cart);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult Details(ShoppingCart shoppingCart)
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity; // Get the user's identity
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value; // Get the user's id
+            shoppingCart.ApplicationUserId = userId; // Set the user's id to the shopping cart
+            
+            ShoppingCart cartFromDb = _unitOfWork.ShoppingCart.Get(u => u.ApplicationUserId == userId &&
+           u.ProductId == shoppingCart.ProductId); 
+
+            if (cartFromDb != null)
+            {
+                //shopping cart exists
+                cartFromDb.Count += shoppingCart.Count;
+                _unitOfWork.ShoppingCart.Update(cartFromDb);
+            }
+            else
+            {
+                //add cart record
+                _unitOfWork.ShoppingCart.Add(shoppingCart);
+            }
+            _unitOfWork.Save();
+            TempData["success"] = "Cart updated successfully";
+            return RedirectToAction(nameof(Index));
         }
 
         public IActionResult Privacy()

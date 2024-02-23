@@ -1,4 +1,5 @@
 ﻿using FinalWeb1.DataAccess.Data;
+using FinalWeb1.DataAccess.Repository;
 using FinalWeb1.DataAccess.Repository.IRepository;
 using FinalWeb1.Models;
 using FinalWeb1.Models.ViewModels;
@@ -55,7 +56,7 @@ namespace FinalWeb1.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Upsert(ProductVM productVM, IFormFile? file)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid) 
             {
                 string wwwRootPath = _webHostEnvironment.WebRootPath; 
                 if (file != null)
@@ -86,14 +87,18 @@ namespace FinalWeb1.Areas.Admin.Controllers
                 if (productVM.Product.Id == 0)
                 {
                     _unitOfWork.Product.Add(productVM.Product);
+                    _unitOfWork.Save();
+                    TempData["success"] = "Product created successfully";
                 }
                 else
                 {
                     _unitOfWork.Product.Update(productVM.Product);
+                    _unitOfWork.Save();
+                    TempData["success"] = "Product updated successfully";
                 }
 
-                _unitOfWork.Save();
-                TempData["success"] = "Product created successfully";
+                //_unitOfWork.Save();
+                //TempData["success"] = "Product created successfully";
                 return RedirectToAction("Index");
             }
             else
@@ -138,7 +143,7 @@ namespace FinalWeb1.Areas.Admin.Controllers
 
             _unitOfWork.Product.Remove(productToBeDeleted); 
             _unitOfWork.Save();
-
+            TempData["success"] = "Product deleted successfully";
             return Json(new { success = true, message = "Delete Successful" });
         }
 

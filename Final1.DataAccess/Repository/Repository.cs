@@ -27,26 +27,42 @@ namespace FinalWeb1.DataAccess.Repository
             dbSet.Add(entity);
         }
 
-        public T Get(Expression<Func<T, bool>> filter, string? includeProperties = null) // get the filter and the include properties
+        
+        public T Get(Expression<Func<T, bool>> filter, string? includeProperties = null, bool tracked = false)
         {
-            IQueryable<T> query = dbSet;
+            IQueryable<T> query;
+            if (tracked)
+            {
+                query = dbSet;
+            }
+            else
+            {
+                query = dbSet.AsNoTracking();
+            }
+
             query = query.Where(filter);
+
+            // include properties will be comma separated
             if (!string.IsNullOrEmpty(includeProperties))
             {
+                // apply the include properties
                 foreach (var includeProp in includeProperties
-                    .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)) 
+                    .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
                 {
                     query = query.Include(includeProp);
                 }
             }
-            return query.FirstOrDefault(); // return the first or default
-
+            return query.FirstOrDefault();
         }
 
-        public IEnumerable<T> GetAll(string? includeProperties = null) // get all the properties
+        public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter, string? includeProperties = null) // get all the properties
         {
             IQueryable<T> query = dbSet;
-            if (!string.IsNullOrEmpty(includeProperties)) 
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+            if (!string.IsNullOrEmpty(includeProperties))
             {
                 foreach (var includeProp in includeProperties
                     .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)) // split the string by the comma
