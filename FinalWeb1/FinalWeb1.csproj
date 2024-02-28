@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Areas\Customer\Views\Cart\Summary.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid.EntityFrameworkAdapter" Version="8.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.2" />
@@ -22,6 +18,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.1" />
+    <PackageReference Include="Stripe.net" Version="43.16.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,6 +27,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\image\product\" />
+    <Folder Include="wwwroot\webImages\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -37,18 +35,6 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Areas\Customer\Views\Cart\Summary.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Areas\Customer\Views\Cart\Summary.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Areas\Customer\Views\Cart\Summary.cshtml" />
   </ItemGroup>
 
 
