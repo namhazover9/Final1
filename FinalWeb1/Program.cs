@@ -21,6 +21,25 @@ builder.Services.ConfigureApplicationCookie(options => {
     options.LogoutPath = $"/Identity/Account/Logout";
     options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
 });
+
+// Facebook Authentication
+builder.Services.AddAuthentication().AddFacebook(option =>
+{
+    option.AppId = "237135712725057";
+    option.AppSecret = "9758c02180e149b61e8ab4fc0df8d734";
+});
+
+builder.Services.AddDistributedMemoryCache(); // Adds a default in-memory implementation of IDistributedCache
+
+// Add session support
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(100); // You can set Time
+    options.Cookie.HttpOnly = true; // This helps to prevent XSS - Cross-site scripting (XSS) is a type of security vulnerability typically found in web applications.
+                                    // XSS attacks enable attackers to inject client-side scripts into web pages viewed by other users.
+    options.Cookie.IsEssential = true; // make the session cookie essential
+});
+
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
@@ -41,6 +60,7 @@ StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey"
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseSession(); 
 app.MapRazorPages();
 app.MapControllerRoute(
     name: "default",
