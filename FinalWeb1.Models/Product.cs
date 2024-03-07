@@ -15,19 +15,22 @@ namespace FinalWeb1.Models
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
-        public string Description { get; set; }               
+        public string Description { get; set; }
         [Required]
         public double Price { get; set; }
-        [Required]
-        public string Size { get; set; }
-        public string Gender { get; set; }
-        public string Material { get; set; }
 
         public int CategoryId { get; set; }
         [ForeignKey("CategoryId")]
         [ValidateNever]
         public Category Category { get; set; }
+
+        //public int ProductConditionId { get; set; }
+        //[ForeignKey("ProductConditionId")]
+        //[ValidateNever]
+        //public ProductCondition? ProductCondition { get; set; }
+
+
         [ValidateNever]
-        public string ImageUrl { get; set; }
+        public List<ProductImage> ProductImages { get; set; }
     }
 }

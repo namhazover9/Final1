@@ -38,7 +38,6 @@ namespace FinalWeb1.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        //[Authorize(Roles = SD.Role_Admin + "," + SD.Role_Employee)]
         [Authorize(Roles = SD.Role_Admin)]
         public IActionResult UpdateOrderDetail()
         {

@@ -25,14 +25,9 @@ namespace FinalWeb1.DataAccess.Repository
                 objFromDb.Name = obj.Name;
                 objFromDb.Description = obj.Description;
                 objFromDb.Price = obj.Price;
-                objFromDb.Size = obj.Size;
-                objFromDb.Gender = obj.Gender;
-                objFromDb.Material = obj.Material;
                 objFromDb.CategoryId = obj.CategoryId;
-                if (obj.ImageUrl != null)
-                {
-                    objFromDb.ImageUrl = obj.ImageUrl;
-                }
+                //objFromDb.ProductConditionId = obj.ProductConditionId;
+                objFromDb.ProductImages = obj.ProductImages;
             }
         }
     }

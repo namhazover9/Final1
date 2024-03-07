@@ -23,7 +23,7 @@ namespace FinalWeb1.Areas.Customer.Controllers
 
         public IActionResult Index()
         {          
-            IEnumerable<Product> productList = _unitOfWork.Product.GetAll(includeProperties: "Category");
+            IEnumerable<Product> productList = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages");
             return View(productList);
         }
 
@@ -32,7 +32,7 @@ namespace FinalWeb1.Areas.Customer.Controllers
             // Get the product and include the category
             ShoppingCart cart = new() 
             {
-                Product = _unitOfWork.Product.Get(u => u.Id == productId, includeProperties: "Category"), 
+                Product = _unitOfWork.Product.Get(u => u.Id == productId, includeProperties: "Category,ProductImages"), 
                 Count = 1, 
                 ProductId = productId
             };

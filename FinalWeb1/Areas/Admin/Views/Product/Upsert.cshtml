@@ -11,7 +11,6 @@
     <div class="card-body p-4"> 
         <form method="post" class="row" enctype="multipart/form-data">
             <input asp-for="Product.Id" hidden />
-            <input asp-for="Product.ImageUrl" hidden />
             <div class="row">
                 <div class="col-10">
                     <div class="border p-3">
@@ -29,22 +28,7 @@
                                 <label asp-for="Product.Price" class="ms-2"></label>
                                 <span asp-validation-for="Product.Price" class="text-danger"></span>
                             </div>
-                            <div class="form-floating py-2 col-12">
-                                <input asp-for="Product.Size" class="form-control border-0 shadow" />
-                                <label asp-for="Product.Size" class="ms-2"></label>
-                                <span asp-validation-for="Product.Size" class="text-danger"></span>
-                            </div>
-                            <div class="form-floating py-2 col-12">
-                                <input asp-for="Product.Gender" class="form-control border-0 shadow" />
-                                <label asp-for="Product.Gender" class="ms-2"></label>
-                                <span asp-validation-for="Product.Gender" class="text-danger"></span>
-                            </div>
-                            <div class="form-floating py-2 col-12">
-                                <input asp-for="Product.Material" class="form-control border-0 shadow" />
-                                <label asp-for="Product.Material" class="ms-2"></label>
-                                <span asp-validation-for="Product.Material" class="text-danger"></span>
-                            </div>
-
+                            
                             <div class="form-floating py-2 col-12">
                                 <select asp-for="@Model.Product.CategoryId" asp-items="@Model.CategoryList" class="form-select border-0 shadow">
                                     <option disabled selected>--Select Category--</option>
@@ -53,9 +37,17 @@
                                 <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
                             </div>
 
+                            @* <div class="form-floating py-2 col-12">
+                                <select asp-for="@Model.Product.ProductConditionId" asp-items="@Model.CategoryList" class="form-select border-0 shadow">
+                                    <option disabled selected>--Select Condition--</option>
+                                </select>
+                                <label asp-for="Product.ProductConditionId" class="ms-2"></label>
+                                <span asp-validation-for="Product.ProductConditionId" class="text-danger"></span>
+                            </div> *@
+
                             <div class="form-floating py-2 col-12">
-                                <input type="file" name="file" class="form-control border-0 shadow" />
-                                <label asp-for="Product.ImageUrl" class="ms-2"></label>
+                                <input type="file" name="files" class="form-control border-0 shadow" multiple />
+                                <label asp-for="Product.ProductImages" class="ms-2"></label>
                             </div>
 
                             <div class="row pt-2">
@@ -79,8 +71,19 @@
                     </div>
                 </div>  
                 <div class="col-2">
-                    <img src="@Model.Product.ImageUrl" width="100%"
-                            style="border-radius:5px; border:1px solid #bbb9b9" />
+                    @if (Model.Product.ProductImages != null)
+                    {
+                        foreach (var image in Model.Product.ProductImages)
+                        {
+                            <div class="border p-1 m-2 text-center">
+                                <img src="@image.ImageUrl" width="100%"
+                                     style="border-radius:5px; border:1px solid #bbb9b9" />
+                                <a asp-action="DeleteImage" class="btn btn-danger" asp-route-imageId="@image.Id">
+                                    <i class="bi bi-trash-fill"></i> Delete
+                                </a>
+                            </div>
+                        }
+                    }
                 </div>
             </div>
         </form>

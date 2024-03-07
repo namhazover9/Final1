@@ -11,6 +11,7 @@ namespace FinalWeb1.DataAccess.Repository.IRepository
     {            
         ICategoryRepository Category { get; }
         IProductRepository Product { get; }
+        IProductImageRepository ProductImage { get; }
         IShoppingCartRepository ShoppingCart { get; }
         IApplicationUserRepository ApplicationUser { get; }
         IOrderDetailRepository OrderDetail { get; }

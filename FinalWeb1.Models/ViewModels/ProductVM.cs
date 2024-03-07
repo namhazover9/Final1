@@ -13,5 +13,7 @@ namespace FinalWeb1.Models.ViewModels
         public Product Product { get; set; }
         [ValidateNever]
         public IEnumerable<SelectListItem> CategoryList { get; set; }
+        [ValidateNever]
+        public IEnumerable<SelectListItem> ProductConditionList { get; set; }
     }
 }

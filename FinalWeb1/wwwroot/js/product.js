@@ -8,12 +8,9 @@ function loadDataTable() {
     dataTable = $('#tblData').DataTable({
         "ajax": { url: '/admin/product/getall' },
         "columns": [
-            { data: 'name', "width": "20%" },
-            { data: 'price', "width": "10%" },
-            { data: 'size', "width": "10%" },
-            { data: 'gender', "width": "10%" },
-            { data: 'material', "width": "10%" },
-            { data: 'category.name', "width": "15%" },
+            { data: 'name', "width": "25%" },
+            { data: 'price', "width": "25%" },
+            { data: 'category.name', "width": "25%" },
             {
                 data: 'id',
                 "render": function (data) {
