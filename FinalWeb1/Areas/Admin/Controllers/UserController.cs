@@ -1,4 +1,5 @@
 ﻿using FinalWeb1.DataAccess.Data;
+using FinalWeb1.DataAccess.Repository.IRepository;
 using FinalWeb1.Models;
 using FinalWeb1.Models.ViewModels;
 using FinalWeb1.Utility;
@@ -53,7 +54,7 @@ namespace FinalWeb1.Areas.Admin.Controllers
             string RoleID = _db.UserRoles.FirstOrDefault(u => u.UserId == roleManagementVM.ApplicationUser.Id).RoleId; // get the role id of the user
             string oldRole = _db.Roles.FirstOrDefault(u => u.Id == RoleID).Name; // get the role name of the user
 
-            if (!(roleManagementVM.ApplicationUser.Role == oldRole)) 
+            if (!(roleManagementVM.ApplicationUser.Role == oldRole))
             {
                 //a role was updated
                 // get the user from the database
@@ -95,7 +96,7 @@ namespace FinalWeb1.Areas.Admin.Controllers
         {
 
             var objFromDb = _db.ApplicationUsers.FirstOrDefault(u => u.Id == id); // get the user from the database
-            
+
             if (objFromDb == null)
             {
                 return Json(new { success = false, message = "Error while Locking/Unlocking" });
@@ -104,7 +105,7 @@ namespace FinalWeb1.Areas.Admin.Controllers
             /* LockoutEnd is a property of the IdentityUser class that represents the end of the lockout period for the user.
             If the user is not locked out, this value is null. */
             if (objFromDb.LockoutEnd != null && objFromDb.LockoutEnd > DateTime.Now) // if the user is currently locked
-            { 
+            {
                 //user is currently locked and we need to unlock them
                 objFromDb.LockoutEnd = DateTime.Now; // set the lockout end to the current time
             }

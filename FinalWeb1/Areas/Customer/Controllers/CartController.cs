@@ -85,44 +85,33 @@ namespace FinalWeb1.Areas.Customer.Controllers
 		[ActionName("Summary")]
 		public IActionResult SummaryPOST()
 		{
+            // Get user id from the claims
 			var claimsIdentity = (ClaimsIdentity)User.Identity;
 			var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
 
+            // Get the shopping cart list based on the user id
 			ShoppingCartVM.ShoppingCartList = _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == userId,
 				includeProperties: "Product");
 
+            // Set the order info - order date, user id
 			ShoppingCartVM.OrderHeader.OrderDate = System.DateTime.Now;
 			ShoppingCartVM.OrderHeader.ApplicationUserId = userId;
-
 			ApplicationUser applicationUser = _unitOfWork.ApplicationUser.Get(u => u.Id == userId);
-
             
+            // Set the price
 			foreach (var cart in ShoppingCartVM.ShoppingCartList)
 			{               
 				cart.Price = GetPrice(cart);
 				ShoppingCartVM.OrderHeader.OrderTotal += (cart.Price * cart.Count);
 			}
 
-			//if (applicationUser.CustomerId.GetValueOrDefault() == 0)
-			//{
-			//	//it is a regular customer 
-			//	ShoppingCartVM.OrderHeader.PaymentStatus = SD.PaymentStatusPending;
-			//	ShoppingCartVM.OrderHeader.OrderStatus = SD.StatusPending;
-			//}
-			//else
-			//{
-			//	
-			//	ShoppingCartVM.OrderHeader.PaymentStatus = SD.PaymentStatusDelayedPayment;
-			//	ShoppingCartVM.OrderHeader.OrderStatus = SD.StatusApproved;
-			//}
-
-			//it is a regular customer 
+			// update the order status and payment status
 			ShoppingCartVM.OrderHeader.PaymentStatus = SD.PaymentStatusPending;
 			ShoppingCartVM.OrderHeader.OrderStatus = SD.StatusPending;
 
+            // Add the order header & order detail to the database
 			_unitOfWork.OrderHeader.Add(ShoppingCartVM.OrderHeader);
 			_unitOfWork.Save();
-
 			foreach (var cart in ShoppingCartVM.ShoppingCartList)
 			{
                 // Create a new OrderDetail object
@@ -137,11 +126,13 @@ namespace FinalWeb1.Areas.Customer.Controllers
 				_unitOfWork.Save();
 			}
 
-            // it is a regular customer account, so need to capture payment (stripe)
+            // Create a Stripe session   
             var domain = "https://localhost:44350/";
             var options = new Stripe.Checkout.SessionCreateOptions
             {
+                // SuccessUrl is the URL that the user will be redirected to after the payment is successful
                 SuccessUrl = domain + $"customer/cart/OrderConfirmation?id={ShoppingCartVM.OrderHeader.Id}",
+                // CancelUrl is the URL that the user will be redirected to if the payment is cancelled
                 CancelUrl = domain + "customer/cart/index",
                 LineItems = new List<Stripe.Checkout.SessionLineItemOptions>(),
                 Mode = "payment",
@@ -171,7 +162,7 @@ namespace FinalWeb1.Areas.Customer.Controllers
             _unitOfWork.OrderHeader.UpdateStripePaymentID(ShoppingCartVM.OrderHeader.Id, session.Id, session.PaymentIntentId);
             _unitOfWork.Save();
             Response.Headers.Add("Location", session.Url); // add the session url to the response header
-            return new StatusCodeResult(303); 
+            return new StatusCodeResult(303); // redirect to the payment session url
 
             //return RedirectToAction(nameof(OrderConfirmation), new { id = ShoppingCartVM.OrderHeader.Id });
         }

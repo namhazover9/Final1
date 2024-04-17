@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinalWeb1.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240307110646_modifyProductData")]
-    partial class modifyProductData
+    [Migration("20240409104134_test")]
+    partial class test
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -231,6 +231,14 @@ namespace FinalWeb1.DataAccess.Migrations
                             Description = "From popular brand 3tStreetWear. Like new, size L.",
                             Name = "Baggy Jeans",
                             Price = 5.9900000000000002
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CategoryId = 1,
+                            Description = "From popular brand 3tStreetWear. Like new, size L.",
+                            Name = "Baggy ",
+                            Price = 7.9900000000000002
                         });
                 });
 

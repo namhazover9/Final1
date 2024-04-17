@@ -28,6 +28,12 @@ builder.Services.AddAuthentication().AddFacebook(option =>
     option.AppId = "237135712725057";
     option.AppSecret = "9758c02180e149b61e8ab4fc0df8d734";
 });
+// Microsoft Authentication
+builder.Services.AddAuthentication().AddMicrosoftAccount(option =>
+{
+    option.ClientId = "c7f5bbe4-6b68-4be2-b4af-f98e69fc5397";
+    option.ClientSecret = "Efo8Q~WVI8LG~Srm6PZmL88Bnfq6KKDTBTP25duU";
+});
 
 builder.Services.AddDistributedMemoryCache(); // Adds a default in-memory implementation of IDistributedCache
 

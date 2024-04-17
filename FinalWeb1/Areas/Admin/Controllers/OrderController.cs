@@ -5,11 +5,12 @@ using FinalWeb1.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Stripe;
+using Stripe.Climate;
 using System.Security.Claims;
 
 namespace FinalWeb1.Areas.Admin.Controllers
 {
-    [Area("admin")]
+    [Area("Admin")]
     [Authorize]
     public class OrderController : Controller
     {
@@ -34,6 +35,7 @@ namespace FinalWeb1.Areas.Admin.Controllers
                 OrderDetail = _unitOfWork.OrderDetail.GetAll(u => u.OrderHeaderId == orderId, includeProperties: "Product")
             };
 
+            
             return View(OrderVM);
         }
 
@@ -81,17 +83,55 @@ namespace FinalWeb1.Areas.Admin.Controllers
         {
 
             var orderHeader = _unitOfWork.OrderHeader.Get(u => u.Id == OrderVM.OrderHeader.Id);
+
             orderHeader.TrackingNumber = OrderVM.OrderHeader.TrackingNumber;
             orderHeader.Carrier = OrderVM.OrderHeader.Carrier;
             orderHeader.OrderStatus = SD.StatusShipped;
             orderHeader.ShippingDate = DateTime.Now;
+
             if (orderHeader.PaymentStatus == SD.PaymentStatusDelayedPayment)
             {
                 orderHeader.PaymentDueDate = DateOnly.FromDateTime(DateTime.Now.AddDays(30));
             }
+            //OrderHeader = _unitOfWork.OrderHeader.Get(u => u.Id == orderId, includeProperties: "ApplicationUser"),
+            //    OrderDetail = _unitOfWork.OrderDetail.GetAll(u => u.OrderHeaderId == orderId, includeProperties: "Product")
+
+            var orderDetails = _unitOfWork.OrderDetail.GetAll(u => u.OrderHeaderId == OrderVM.OrderHeader.Id, includeProperties:"Product").ToList();
+            //OrderVM = new()
+            //{
+            //    OrderHeader = _unitOfWork.OrderHeader.Get(u => u.Id == orderId),
+            //    OrderDetail = _unitOfWork.OrderDetail.GetAll(u => u.OrderHeaderId == orderId, includeProperties: "Product")
+            //};
+
+                     
+            // Kiểm tra xem OrderDetail có null hay không
+            if (orderDetails != null)
+            {
+                //orderDetails = OrderVM.OrderDetail.ToList();
+
+                foreach (var orderDetail in orderDetails)
+                {
+                    var productId = orderDetail.ProductId;
+                    var product = _unitOfWork.Product.Get(p => p.Id == productId);
+
+                    if (product != null)
+                    {
+                        product.Status = "Sold";
+                        _unitOfWork.Product.Update(product); 
+                    }
+                }
+                _unitOfWork.Save();
+            }
+            else
+            {
+                // Nếu không có chi tiết đơn hàng nào được gửi từ form, thông báo lỗi cho người dùng
+                TempData["Error"] = "No order details found.";             
+            }
 
             _unitOfWork.OrderHeader.Update(orderHeader);
             _unitOfWork.Save();
+
+           
             TempData["Success"] = "Order Shipped Successfully.";
             return RedirectToAction(nameof(Details), new { orderId = OrderVM.OrderHeader.Id });
         }

@@ -6,19 +6,18 @@ $(document).ready(function () {
 
 function loadDataTable() {
     dataTable = $('#tblData').DataTable({
-        "ajax": { url: '/admin/product/getall' },
+        "ajax": { url: '/admin/transaction/getall' },
         "columns": [
+            { data: 'id', "width": "5%" },
             { data: 'name', "width": "20%" },
-            { data: 'price', "width": "10%" },
-            { data: 'category.name', "width": "15%" },
-            { data: 'condition', "width": "20%" },
+            { data: 'applicationUser.id', "width": "20%" },
+            { data: 'applicationUser.name', "width": "20%" },
             { data: 'status', "width": "10%" },
             {
                 data: 'id',
                 "render": function (data) {
                     return `<div class="w-75 btn-group" role="group">
-                     <a href="/admin/product/upsert?id=${data}" class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i> Edit</a>               
-                     <a onClick=Delete('/admin/product/delete/${data}') class="btn btn-danger mx-2"> <i class="bi bi-trash-fill"></i> Delete</a>
+                     <a href="/admin/transaction/summary?id=${data}" class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i> Summary</a>                                
                     </div>`
                 },
                 "width": "25%"
@@ -28,23 +27,26 @@ function loadDataTable() {
 }
 //function loadDataTable() {
 //    dataTable = $('#tblData').DataTable({
-//        "ajax": { url: '/admin/product/getall' },
+//        "ajax": { url: '/admin/transaction/getall' },
 //        "columns": [
+//            { data: 'id', "width": "5%" },
 //            { data: 'name', "width": "20%" },
-//            { data: 'price', "width": "10%" },
-//            { data: 'category.name', "width": "15%" },
-//            { data: 'condition', "width": "20%" },
-//            { data: 'status', "width": "10%" },           
+//            { data: 'applicationUser.id', "width": "30%" },
+//            { data: 'applicationUser.name', "width": "20%" },
+//            { data: 'status', "width": "10%" },
 //            {
 //                data: 'id',
 //                "render": function (data) {
 //                    return `<div class="w-75 btn-group" role="group">
-//                     <a href="/admin/product/upsert?id=${data}" class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i> Edit</a>               
-//                     <a onClick=Delete('/admin/product/delete/${data}') class="btn btn-danger mx-2"> <i class="bi bi-trash-fill"></i> Delete</a>
+//                     <a href="/Admin/Transaction/Summary?id=${data}> Summary</a>
+//                     <a href="/Admin/Transaction/Details/${data}">Summary</a>
 //                    </div>`
 //                },
-//                "width": "25%"
+//                "width": "15%"
 //            }
+
+
+            
 //        ]
 //    });
 //}

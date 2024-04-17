@@ -23,16 +23,15 @@ namespace FinalWeb1.Areas.Customer.Controllers
 
         public IActionResult Index()
         {          
-            IEnumerable<Product> productList = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages");
+            IEnumerable<Product> productList = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages,ApplicationUser");
             return View(productList);
         }
 
         public IActionResult Details(int productId)
-        {
-            // Get the product and include the category
+        {           
             ShoppingCart cart = new() 
             {
-                Product = _unitOfWork.Product.Get(u => u.Id == productId, includeProperties: "Category,ProductImages"), 
+                Product = _unitOfWork.Product.Get(u => u.Id == productId, includeProperties: "Category,ProductImages,ApplicationUser"), 
                 Count = 1, 
                 ProductId = productId
             };
@@ -40,7 +39,7 @@ namespace FinalWeb1.Areas.Customer.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = SD.Role_Customer)]
         public IActionResult Details(ShoppingCart shoppingCart)
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity; // Get the user's identity

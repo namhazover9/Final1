@@ -25,6 +25,8 @@ namespace FinalWeb1.DataAccess.Repository
                 objFromDb.Name = obj.Name;
                 objFromDb.Description = obj.Description;
                 objFromDb.Price = obj.Price;
+                objFromDb.Condition = obj.Condition;
+                objFromDb.Status = obj.Status;
                 objFromDb.CategoryId = obj.CategoryId;
                 //objFromDb.ProductConditionId = obj.ProductConditionId;
                 objFromDb.ProductImages = obj.ProductImages;
