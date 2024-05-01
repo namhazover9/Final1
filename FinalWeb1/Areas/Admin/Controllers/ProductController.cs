@@ -27,102 +27,139 @@ namespace FinalWeb1.Areas.Admin.Controllers
             return View(objProductList);
         }
 
-        //// GET - UPSERT
-        //public IActionResult Upsert(int? id)
+        //// Browse
+        //public IActionResult Browse(int? id)
         //{
-        //    ProductVM productVM = new() // to pass the product and category list to the view
-        //    {
-        //        CategoryList = _unitOfWork.Category.GetAll().Select(u => new SelectListItem 
-        //        {
-        //            Text = u.Name,
-        //            Value = u.Id.ToString()
-        //        }),
-        //        Product = new Product()
-        //    };
+        //    var browseList = new List<string> {
+        //        "Pending",
+        //        "Approved",
+        //        "Denied"};
+        //    ViewBag.BrowseList = new SelectList(browseList);
         //    if (id == null || id == 0)
         //    {
-        //        //create
-        //        return View(productVM);
+        //        return NotFound();
         //    }
-        //    else
+        //    Product? product = _unitOfWork.Product.Get(u => u.Id == id,includeProperties: "Category,ApplicationUser");
+        //    if (product == null)
         //    {
-        //        //update
-        //        productVM.Product = _unitOfWork.Product.Get(u => u.Id == id, includeProperties:"ProductImages");
-        //        return View(productVM);
+        //        return NotFound();
         //    }
-
+        //    return View(product);
         //}
-        //// POST - UPSERT
+
         //[HttpPost]
-        //public IActionResult Upsert(ProductVM productVM, List<IFormFile> files)
+        //public IActionResult Browse(Product obj)
         //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        if (productVM.Product.Id == 0)
-        //        {
-        //            _unitOfWork.Product.Add(productVM.Product);
-        //        }
-        //        else
-        //        {
-        //            _unitOfWork.Product.Update(productVM.Product);
-        //        }
+            
+        //    _unitOfWork.Product.Update(obj);
+        //    _unitOfWork.Save();
+        //    TempData["success"] = "Product browsed successfully";
+        //    return RedirectToAction("Index");
+        //}    
+            
+        
+        // GET - UPSERT
+        public IActionResult Browse(int? id)
+        {
+            var browseList = new List<string> {
+                "Pending",
+                "Approved",
+                "Denied"};
+            ViewBag.BrowseList = new SelectList(browseList);
 
-        //        _unitOfWork.Save();
+            ProductVM productVM = new() // to pass the product and category list to the view
+            {
+                CategoryList = _unitOfWork.Category.GetAll().Select(u => new SelectListItem
+                {
+                    Text = u.Name,
+                    Value = u.Id.ToString()
+                }),
+                Product = new Product()
+            };
+            if (id == null || id == 0)
+            {
+                //create
+                return View(productVM);
+            }
+            else
+            {
+                //update
+                productVM.Product = _unitOfWork.Product.Get(u => u.Id == id, includeProperties: "ProductImages");
+                return View(productVM);
+            }
 
-        //        string wwwRootPath = _webHostEnvironment.WebRootPath; // to get the root path of the application
-        //        if (files != null)
-        //        {
+        }
+        // POST - UPSERT
+        [HttpPost]
+        public IActionResult Browse(ProductVM productVM, List<IFormFile> files)
+        {
+            if (ModelState.IsValid)
+            {
+                if (productVM.Product.Id == 0)
+                {
+                    _unitOfWork.Product.Add(productVM.Product);
+                }
+                else
+                {
+                    _unitOfWork.Product.Update(productVM.Product);
+                }
 
-        //            foreach (IFormFile file in files) 
-        //            {                       
+                _unitOfWork.Save();
 
-        //                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName); // to get the file name
-        //                string productPath = @"image\products\product-" + productVM.Product.Id; // to get the path of the image
-        //                string finalPath = Path.Combine(wwwRootPath, productPath); // to get the final path of the image
+                string wwwRootPath = _webHostEnvironment.WebRootPath; // to get the root path of the application
+                if (files != null)
+                {
 
-        //                if (!Directory.Exists(finalPath)) 
-        //                    Directory.CreateDirectory(finalPath); 
+                    foreach (IFormFile file in files)
+                    {
 
-        //                // to get the file stream and copy the file to the final path
-        //                using (var fileStream = new FileStream(Path.Combine(finalPath, fileName), FileMode.Create))
-        //                {
-        //                    file.CopyTo(fileStream);
-        //                }
+                        string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName); // to get the file name
+                        string productPath = @"image\products\product-" + productVM.Product.Id; // to get the path of the image
+                        string finalPath = Path.Combine(wwwRootPath, productPath); // to get the final path of the image
 
-        //                // to save the image path to the database
-        //                ProductImage productImage = new()
-        //                {
-        //                    ImageUrl = @"\" + productPath + @"\" + fileName,
-        //                    ProductId = productVM.Product.Id,
-        //                };
-                         
-        //                // to add the image to the product
-        //                if (productVM.Product.ProductImages == null)
-        //                    productVM.Product.ProductImages = new List<ProductImage>();
+                        if (!Directory.Exists(finalPath))
+                            Directory.CreateDirectory(finalPath);
 
-        //                productVM.Product.ProductImages.Add(productImage);
+                        // to get the file stream and copy the file to the final path
+                        using (var fileStream = new FileStream(Path.Combine(finalPath, fileName), FileMode.Create))
+                        {
+                            file.CopyTo(fileStream);
+                        }
 
-        //            }
+                        // to save the image path to the database
+                        ProductImage productImage = new()
+                        {
+                            ImageUrl = @"\" + productPath + @"\" + fileName,
+                            ProductId = productVM.Product.Id,
+                        };
 
-        //            _unitOfWork.Product.Update(productVM.Product);
-        //            _unitOfWork.Save();
+                        // to add the image to the product
+                        if (productVM.Product.ProductImages == null)
+                            productVM.Product.ProductImages = new List<ProductImage>();
 
-        //        }
+                        productVM.Product.ProductImages.Add(productImage);
+
+                    }
+
+                    _unitOfWork.Product.Update(productVM.Product);
+                    _unitOfWork.Save();
+
+                }
 
 
-        //        TempData["success"] = "Product created/updated successfully";
-        //        return RedirectToAction("Index");
-        //    }
-        //    else
-        //    {
-        //        productVM.CategoryList = _unitOfWork.Category.GetAll().Select(u => new SelectListItem
-        //        {
-        //            Text = u.Name,
-        //            Value = u.Id.ToString()
-        //        });
-        //        return View(productVM);
-        //    }
-        //}
+                TempData["success"] = "Product browsed successfully";
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                productVM.CategoryList = _unitOfWork.Category.GetAll().Select(u => new SelectListItem
+                {
+                    Text = u.Name,
+                    Value = u.Id.ToString()
+                });
+                return View(productVM);
+            }
+        }
 
         //public IActionResult DeleteImage(int imageId)
         //{

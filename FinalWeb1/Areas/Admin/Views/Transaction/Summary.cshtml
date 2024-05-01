@@ -1,6 +1,6 @@
 ﻿@model Product
 
-@* <form method="post"> *@
+<form method="post">
 	<br />
 	<div class="container">
 		<div class="card shadow border-0">
@@ -109,16 +109,18 @@
 										<h6 class="my-0">@Model.Name</h6>
 										
 									</div>
-									<span class="text-muted">@Model.Price.ToString("c")</span>
+								</li>
+								<li class="list-group-item d-flex justify-content-between">
+									<span class="text-muted">Price: @Model.Price.ToString("c")</span>
+								</li>
+								<li class="list-group-item d-flex justify-content-between">
+								<span class="text-muted">Transaction fee: @((Model.Price * 0.1).ToString("c"))</span>
 								</li>
 								
-								
-
-
-								@* <li class="list-group-item d-flex justify-content-between bg-light">
+								<li class="list-group-item d-flex justify-content-between bg-light">
 									<small class="text-info">Total (USD)</small>
-									<strong class="text-info">@Model.OrderHeader.OrderTotal.ToString("c")</strong>
-								</li> *@
+								<strong class="text-info">@((Model.Price - (Model.Price * 0.1)).ToString("c"))</strong>
+								</li>
 							</ul>
 						</div>
 					</div>
@@ -128,14 +130,15 @@
 				<div class="row">
 					<div class="col-12 col-md-8 pt-2">
 						<p style="color:maroon; font-size:14px;">
-							Estimate Arrival Date: @DateTime.Now.AddDays(7).ToShortDateString() - @DateTime.Now.AddDays(14).ToShortDateString()
+							@DateTime.Now.AddDays(7).ToShortDateString()
 						</p>
 					</div>
 					<div class="col-12 col-md-4">
-						<button type="submit" value="Place Order" class="btn btn-primary form-control">Place Order</button>
+						<button type="submit" value="Place Order" class="btn btn-primary form-control">Confirm</button>
 					</div>
+					
 				</div>
 			</div>
 		</div>
 	</div>
-@* </form> *@
+</form>

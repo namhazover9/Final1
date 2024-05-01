@@ -16,6 +16,9 @@ namespace FinalWeb1.Models
         public string? StreetAddress { get; set; }
         public string? City { get; set; }
         public string? State { get; set; }
+        public string? Country { get; set; }
+        [StringLength(16, ErrorMessage = "Credit Card must have 16 digits")]
+        public string? CreditCard { get; set; }
         public string? PostalCode { get; set; }
         [NotMapped] // This property will not be added to the database
         public string Role { get; set; }

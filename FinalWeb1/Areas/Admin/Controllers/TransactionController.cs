@@ -55,7 +55,76 @@ namespace FinalWeb1.Areas.Admin.Controllers
             return View(product);
         }
 
-        
+        [HttpPost]
+        [ActionName("Summary")]
+        public IActionResult SummaryPOST(int? id)
+        {
+            Product? product = _unitOfWork.Product.Get(u => u.Id == id, includeProperties: "Category,ApplicationUser");
+
+            //// Get the shopping cart list based on the user id
+            //ShoppingCartVM.ShoppingCartList = _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == userId,
+            //    includeProperties: "Product");
+
+            //// Set the order info - order date, user id
+            //ShoppingCartVM.OrderHeader.OrderDate = System.DateTime.Now;
+            //ShoppingCartVM.OrderHeader.ApplicationUserId = userId;
+            //ApplicationUser applicationUser = _unitOfWork.ApplicationUser.Get(u => u.Id == userId);
+
+            //// Set the price
+            //foreach (var cart in ShoppingCartVM.ShoppingCartList)
+            //{
+            //    cart.Price = GetPrice(cart);
+            //    ShoppingCartVM.OrderHeader.OrderTotal += (cart.Price * cart.Count);
+            //}
+
+            product.IsPay = true;
+            _unitOfWork.Product.Update(product);
+            _unitOfWork.Save();
+
+            // Create a Stripe session   
+            var domain = "https://localhost:44350/";
+            var options = new Stripe.Checkout.SessionCreateOptions
+            {
+                // SuccessUrl is the URL that the user will be redirected to after the payment is successful
+                SuccessUrl = domain + $"admin/transaction/PaymentConfirmation",
+                // CancelUrl is the URL that the user will be redirected to if the payment is cancelled
+                CancelUrl = domain + "admin/transaction/index",
+                LineItems = new List<Stripe.Checkout.SessionLineItemOptions>(),
+                Mode = "payment",
+            };
+
+            
+            // create a new session line item
+            var sessionLineItem = new Stripe.Checkout.SessionLineItemOptions
+            {
+                // price data is used to set the price of the item
+                PriceData = new Stripe.Checkout.SessionLineItemPriceDataOptions
+                {
+                    UnitAmount = (long)((product.Price - (product.Price * 0.1)) * 100), // $20.50 => 2050
+                    Currency = "usd",
+                    ProductData = new Stripe.Checkout.SessionLineItemPriceDataProductDataOptions
+                    {
+                        Name = product.Name
+                    }
+                },
+                Quantity = 1
+            };
+            options.LineItems.Add(sessionLineItem); // add the item to the line items
+            
+            var service = new Stripe.Checkout.SessionService(); // create a new session service
+            Stripe.Checkout.Session session = service.Create(options);
+            Response.Headers.Add("Location", session.Url); // add the session url to the response header
+            return new StatusCodeResult(303); // redirect to the payment session url
+
+            //return RedirectToAction(nameof(OrderConfirmation), new { id = ShoppingCartVM.OrderHeader.Id });
+        }
+
+
+        public IActionResult PaymentConfirmation()
+        {                     
+            return View();
+        }
+
         #region API CALLS
 
         [HttpGet]

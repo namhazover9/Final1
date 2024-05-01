@@ -57,8 +57,7 @@ namespace FinalWeb1.Areas.Customer.Controllers
             // Create a new ShoppingCartVM object
             ShoppingCartVM = new()
             {
-                ShoppingCartList = _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == userId,
-                includeProperties: "Product"), // includeProperties: "Product" is used to include the Product table in the query
+                ShoppingCartList = _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == userId,includeProperties: "Product"), 
                 OrderHeader = new()
             };
 

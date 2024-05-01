@@ -113,6 +113,7 @@ namespace FinalWeb1.Areas.Identity.Pages.Account
             public string? City { get; set; }
             public string? State { get; set; }
             public string? PostalCode { get; set; }
+            public string? CreditCard { get; set; }
             public string? PhoneNumber { get; set; }
         }
 

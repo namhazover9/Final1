@@ -9,7 +9,7 @@
         </div>
     </div>
     <div class="card-body p-4">       
-        <table id="tblData" class="table table-bordered table-striped" style="width:100%">
+        <table id="myTable" class="table table-bordered table-striped hover" style="width:100%">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -20,11 +20,39 @@
                     <th></th>
                 </tr>
             </thead>
+            <tbody>
+                @foreach (var obj in Model.Where(u=>u.Status == "Sold"))
+                {                                                             
+                    <tr>
+                        <td>@obj.Id</td>
+                        <td> @obj.Name</td>
+                        <td> @obj.ApplicationUserId</td>
+                        <td> @obj.ApplicationUser.Name</td>
+                        <td> @obj.Status</td>
+                        <td>
+                            @if(@obj.IsPay == false) {
+                                <div role="group" style="display:flex; justify-content:center;">
+                                    <a asp-controller="Transaction" asp-action="Summary" asp-route-id="@obj.Id" class="btn btn-primary mx-2" style="60%">
+                                        <i class="bi bi-credit-card-2-back"></i> Pay
+                                    </a>                              
+                                </div>
+                            } else {
+                            <div class="w-75 btn-group" role="group">
+                                <a class="btn btn-primary mx-2 disabled">
+                                        <i class="bi bi-credit-card-2-back"></i> Paid
+                                </a>
+
+                            </div>
+                            }
+                        </td>
+                    </tr>                   
+                }
+            </tbody>
         </table>
 
     </div>
 </div>
 
-@section Scripts {
+@* @section Scripts {
     <script src="~/js/transaction.js"></script>
-}
+} *@
