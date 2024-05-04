@@ -1,0 +1,55 @@
+﻿/*
+.fadein .myImage {
+    opacity: 1.4;
+    transition: .7s ease;
+}
+
+.fadein .myImage:hover {
+    opacity: 0.8;
+    transition: .7s ease;
+}*/
+
+.my-image-container {
+    
+    overflow: hidden;
+}
+
+
+.myImage {
+    opacity: 1.5;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.5s ease;
+}
+
+    .myImage:hover {
+        transform: scale(1.2);
+        opacity: 0.9;
+    }
+
+.about-section {
+    background-image: url("https://png.pngtree.com/background/20230612/original/pngtree-many-different-clothe-styles-are-hung-out-on-a-rack-picture-image_3175451.jpg"); /* Thay đổi URL ảnh nền */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Giữ ảnh nền cố định khi cuộn trang */
+    padding: 50px;
+    opacity
+}
+
+.about-img {
+    width: 25%; /* Điều chỉnh kích thước ảnh */
+    margin-right: 30px;
+    border-radius: 50%; /* Tạo ảnh hình vuông */
+    overflow: hidden; /* Giữ ảnh bên trong khung hình vuông */
+}
+
+    .about-img img {
+        width: 100%; /* Đảm bảo ảnh hiển thị đầy đủ trong khung */
+        height: auto; /* Tỷ lệ khung hình tự động */
+    }
+
+.about-text {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #fff; /* Chữ trắng để dễ đọc trên nền ảnh */
+}

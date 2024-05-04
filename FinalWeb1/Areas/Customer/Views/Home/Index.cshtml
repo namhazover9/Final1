@@ -1,47 +1,276 @@
 ﻿@model IEnumerable<Product>
 
-<div class="row pb-3">
-    
-    @foreach (var product in Model)
-    {
-        @if (product.Status == "Available" && product.isBrowsed == "Approved")
-        {
-            <div class="col-lg-3 col-sm-6" style="padding-bottom: 10">
-                <div class="row p-2">
-                    <div class="col-12 p-1">
-                        <div class="card border-0 p-3 shadow  border-top border-5 rounded">
-                            @if (product.ProductImages != null && product.ProductImages.Count() > 0)
-                            {
-                                <img src="@product.ProductImages.FirstOrDefault().ImageUrl" class="card-img-top rounded" />
-                            }
-                            else
-                            {
-                                <img src="https://placehold.co/500x600/png" class="card-img-top rounded" />
-                            }
-                            <div class="card-body pb-0">
-                                <div class="pl-1">
-                                    <p class="card-title h5 text-dark text-uppercase text-center">@product.Name</p>                                   
-                                </div>
-                                <div class="pl-1">
-                                    <p class="text-dark text-opacity-75 text-center mb-0">
-                                        Price:
-                                        <span>
-                                            @product.Price.ToString("c")
-                                        </span>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="mt-2">
-                                <a asp-action="Details"
-                                   asp-route-productId="@product.Id"
-                                   class="btn btn-primary bg-gradient border-0 form-control">
-                                    Details
-                                </a>
-                            </div>
-                        </div>
+
+<div class="row pb-3" >
+
+    <div class="row1 pb-3" style="justify-content:center; padding: 0 !important">
+        <img src="/image/cover2.jpg" />
+    </div>
+   
+    <div class="row" style="padding: 0 !important; margin-top: 3rem;">
+        <div class="row1 " style="justify-content:space-between; padding: 0 !important;">
+            <div class="col-md-2  my-image-container" style="border: none; ">
+                <a asp-controller="Home" asp-action="Category1">
+                    <img src="~/image/cate1.png" class="card-img-top  myImage" />     
+                </a>
+            </div>
+            <div class="col-md-2  my-image-container" style="border: none;">
+                <a asp-controller="Home" asp-action="Category2">
+                    <img src="~/image/cate2.png" class="card-img-top  myImage" />
+                </a>
+            </div>
+            <div class="col-md-2  my-image-container" style="border: none;">
+                <a asp-controller="Home" asp-action="Category3">
+                    <img src="~/image/cate3n.jpg" class="card-img-top  myImage" />
+                </a>
+            </div>
+            <div class="col-md-2 my-image-container" style="border: none; ">
+                <a asp-controller="Home" asp-action="Category4">
+                    <img src="~/image/cate4.png" class="card-img-top  myImage" />
+                </a>
+            </div>
+            <div class="col-md-2  my-image-container" style="border: none; ">
+                <a asp-controller="Home" asp-action="Category5">
+                    <img src="~/image/cate5.png" class="card-img-top  myImage" />
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row1 bg-primary" style="padding: 0; margin-top: 3rem ">
+        <div class="row1 text-center">
+            <h2 class="" style="padding: 2rem 0; color:white; font-weight: bold ">Did you know that the fashion industry <br/> is the second most polluting industry in the world?</h2>
+        </div>
+
+        <div class="row1 justify-content-around">
+            
+            <div class="card p-3 bg-secondary row col-md-3" style=" border: none !important">                   
+                <a >
+                    <div >
+                        <img src="~/image/carbon.png" class="card-img-top rounded " />
+                    </div>
+                </a>
+                  
+                <div class="card-body pb-0">
+                    <div class="pl-1">
+                        <h4 class="card-title h5 text-white text-uppercase " style="font-weight: bold">10% of global carbon emissions-</h4>
+                    </div>
+                    <div class="pl-1">
+                        <h6 class="text-white text-opacity-75  mb-0">
+                            are emitted by the fashion industry every year
+                        </h6>
+                    </div>
+                    <div class="pl-1 mt-2">
+                        <p class="text-white text-opacity-50 ">europarl.europa.eu, 2024</p>
                     </div>
                 </div>
             </div>
-        }
-    }
+
+            <div class="card p-3 bg-secondary  row col-md-3" style=" border: none !important">
+                <a>
+                    <div >
+                        <img src="~/image/water.png" class="card-img-top " />
+                    </div>
+                </a>
+
+                <div class="card-body pb-0">
+                    <div class="pl-1">
+                        <h4 class="card-title h5 text-white text-uppercase " style="font-weight: bold">113 billion liters-</h4>
+                    </div>
+                    <div class="pl-1">
+                        <h6 class="text-white text-opacity-75  mb-0">
+                            The water required for one year's worth of global textile production
+                        </h6>
+                    </div>
+                    <div class="pl-1 mt-2">
+                        <p class="text-white text-opacity-50 ">theconsiouschallenge.org, 2019</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card p-3 bg-secondary  row col-md-3" style=" border:  none !important">
+                <a>
+                    <div >
+                        <img src="~/image/waste.png" class="card-img-top " />
+                    </div>
+                </a>
+
+                <div class="card-body pb-0">
+                    <div class="pl-1">
+                        <h4 class="card-title h5 text-white text-uppercase " style="font-weight: bold">92 million tonnes-</h4>
+                    </div>
+                    <div class="pl-1">
+                        <h6 class="text-white text-opacity-75  mb-0">
+                            is the amount of textile waste generated every year across the world.
+                        </h6>
+                    </div>
+                    <div class="pl-1 mt-2">
+                        <p class="text-white text-opacity-50 ">businesswaste.co.uk, 2023</p>
+                    </div>
+                </div>
+            </div>
+         </div>
+
+        <div class="row text-center">
+            <h4 class=" mb-3 text-white text-opacity-75" style="padding: 2rem 0;">"Every purchase has a price. <br/>Consider the true cost of your clothes."</h4>
+        </div>
+    </div>   
+    
+    <div class="container about-section">
+        <div class="row1" style="padding: 0 !important">
+            <div class="col-md-3 about-img" style="margin-left: 2rem">
+                <img src="~/image/logo.png" alt="Logo" class="img-fluid" style="opacity: 0.9;">
+            </div>
+            <div class="col-md-7 about-text" style="text-align: justify; padding: 2rem 0 0 2rem;">
+                <h2 class="text-white" style="font-weight: bold">About Us</h2>               
+                <p style="font-weight: bold; opacity: 0.9; margin-top: .5rem">SecondFashion is a dedicated to pre-owned fashion, where you can both refresh your wardrobe, unleash your fashion creativity, and contribute to reducing textile waste in the environment.</p>
+                <p style="font-weight: bold; opacity: 0.9; margin-top: .5rem">SecondFashion was founded in March 2024 in Da Nang city, Vietnam.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row1 justify-content-center mt-5" >
+        <div class="col-md-8">
+            <h1 class="text-primary" style=" font-weight: bold; text-align: center;">The Message from SecondFashion</h1>
+            <h4  style=" text-align: justify; margin-top: 1rem ">
+                It's great to own trendy, classy, luxurious outfits and then surpass your limits, 
+                turning items right in your wardrobe into unique business products.
+            </h4>
+            <p style="text-align: justify; margin-top: 1rem">
+                If technology is a companion, then fashion is the statement of every young person, to tell the world about their style and personality. 
+                In the Piktina fashion community, you don't need to follow the trend, you will be your own trend.
+            </p>
+            <p style="text-align: justify;">
+                Here, you will meet friends who have the same passion and interest in fashion, care about beauty, 
+                civilized lifestyle and aim to use sustainable fashion. 
+                Each fashion item only needs to last 3 more months to reduce the amount of gas, water and waste released into the earth's environment by 5% - 10% ❤
+            </p>
+        </div>
+    </div>
 </div>
+
+@* <!-- Remove the container if you want to extend the Footer to full width. -->
+<div class=" my-5">
+    <!-- Footer -->
+    <footer class="text-center text-lg-start text-white bg-primary">
+        <!-- Grid container -->
+        <div class="container p-4 pb-0">
+            <!-- Section: Links -->
+            <section class="">
+                <!--Grid row-->
+                <div class="row">
+                    <!-- Grid column -->
+                    <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+                        <h6 class="text-uppercase mb-4 font-weight-bold">
+                            SecondFashion
+                        </h6>
+                        <p>
+                            Head office: 11 Huynh Tan Phat, District 1, Da Nang City, Vietnam.
+                            <br/>
+                            Representative: Mr. Le Nguyen Quang Nam - Position: General Director.                           
+                        </p>
+                    </div>
+                    <!-- Grid column -->
+
+                    <hr class="w-100 clearfix d-md-none" />
+
+                    <!-- Grid column -->
+                    <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+                        <h6 class="text-uppercase mb-4 font-weight-bold">Products</h6>
+                        <p>
+                            <a class="text-white">Men's Clothing'</a>
+                        </p>
+                        <p>
+                            <a class="text-white">Women's Clothing'</a>
+                        </p>
+                        <p>
+                            <a class="text-white">Unisex Clothing</a>
+                        </p>
+                        <p>
+                            <a class="text-white">Accessories</a>
+                        </p>
+                    </div>
+                    <!-- Grid column -->
+
+                    <hr class="w-100 clearfix d-md-none" />
+
+                    <!-- Grid column -->
+                    <hr class="w-100 clearfix d-md-none" />
+
+                    <!-- Grid column -->
+                    <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+                        <h6 class="text-uppercase mb-4 font-weight-bold">Contact</h6>
+                        <p><i class="bi bi-house-fill"></i> Da Nang, DN 50000, VN</p>
+                        <p><i class="bi bi-envelope-fill"></i> secondfashion032024@gmail.com</p>
+                        <p><i class="bi bi-telephone-fill"></i> + 84 545 676 11</p>
+                        <p><i class="bi bi-printer-fill"></i> + 48 412 567 02</p>
+                    </div>
+                    <!-- Grid column -->
+                    <!-- Grid column -->
+                    <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
+                        <h6 class="text-uppercase mb-4 font-weight-bold">Follow us</h6>
+
+                        <!-- Facebook -->
+                        <a class="btn btn-primary btn-floating m-1"
+                           style="background-color: #3b5998"
+                           href="#!"
+                           role="button">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+
+                        <!-- Twitter -->
+                        <a class="btn btn-primary btn-floating m-1"
+                           style="background-color: black"
+                           href="#!"
+                           role="button">
+                            <i class="bi bi-twitter-x"></i>
+                        </a>
+
+                        <!-- Google -->
+                        <a class="btn btn-primary btn-floating m-1"
+                           style="background-color: #dd4b39"
+                           href="#!"
+                           role="button">
+                            <i class="bi bi-google"></i>
+                        </a>
+
+                        <!-- Instagram -->
+                        <a class="btn btn-primary btn-floating m-1"
+                           style="background-color: #ac2bac"
+                           href="#!"
+                           role="button">
+                            <i class="bi bi-instagram"></i>
+                        </a>
+
+                        <!-- Linkedin -->
+                        <a class="btn btn-primary btn-floating m-1"
+                           style="background-color: #0082ca"
+                           href="#!"
+                           role="button">
+                            <i class="bi bi-linkedin"></i>
+                        </a>
+                        <!-- Github -->
+                        <a class="btn btn-primary btn-floating m-1"
+                           style="background-color: #333333"
+                           href="#!"
+                           role="button">
+                            <i class="bi bi-github"></i>
+                        </a>
+                    </div>
+                </div>
+                <!--Grid row-->
+            </section>
+            <!-- Section: Links -->
+        </div>
+        <!-- Grid container -->
+        <!-- Copyright -->
+        <div class="text-center p-3 bg-secondary">
+            © 2024 Copyright:
+            <a class="text-white" href="#">SecondFashion.com</a>
+        </div>
+        <!-- Copyright -->
+    </footer>
+    <!-- Footer -->
+</div>
+<!-- End of .container -->
+ *@

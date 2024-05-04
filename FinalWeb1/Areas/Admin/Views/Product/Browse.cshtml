@@ -9,7 +9,7 @@
             </div>
         </div>
     </div>
-    <div class="card-body p-4"> 
+    <div class="card-body p-4" style="background-color: #FFFCC7">
         <form method="post" class="row" enctype="multipart/form-data">
             <input asp-for="Product.Id" hidden />
             <div class="row">
@@ -21,11 +21,9 @@
                         </div>
                         <div class="py-2 col-12">
                             @* <label asp-for="Product.Description" class="ms-2 text-muted"></label> *@
-                           @*  <textarea asp-for="Product.Description" readonly class="form-control border-0 shadow"></textarea> *@
+                            <textarea asp-for="Product.Description" disabled  class="form-control border-0 shadow"></textarea>
 
-                            <div class="form-floating py-2 col-12">
-                                <input asp-for="Product.Description" readonly type="text" class="form-control border-0 shadow" />
-                            </div>
+                           
                             <div class="form-floating py-2 col-12">
                                 <input asp-for="Product.Price" readonly type="text" class="form-control border-0 shadow" />
                             </div>
@@ -34,9 +32,9 @@
                                 <input asp-for="Product.Condition" readonly type="text" class="form-control border-0 shadow" />
                             </div>
                             
-                            <div class="form-floating py-2 col-12">
-                                <input asp-for="Product.CategoryId" readonly type="text" class="form-control border-0 shadow" />
-                            </div>
+                            @* <div class="form-floating py-2 col-12">
+                                <input asp-for="Product.Category.Name" readonly type="text" class="form-control border-0 shadow" />
+                            </div> *@
                             <div class="form-group">                              
                                 <div class="form-floating py-2 col-12">
                                     @Html.DropDownListFor(model => model.Product.isBrowsed, (SelectList)ViewBag.BrowseList, "--Browse--", new { @class = "form-select border-0 shadow" })
@@ -62,7 +60,7 @@
                                     
                                 </div>
                                 <div class="col-6 col-md-3">
-                                    <a asp-controller="Product" asp-action="Index" class="btn btn-outline-primary border form-control">
+                                    <a asp-controller="Product" asp-action="Index" class="btn btn-secondary border form-control">
                                         Back to List
                                     </a>
                                 </div>

@@ -4,6 +4,7 @@ using FinalWeb1.Models;
 using FinalWeb1.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Diagnostics;
 using System.Security.Claims;
 
@@ -21,11 +22,151 @@ namespace FinalWeb1.Areas.Customer.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        public IActionResult Index()
-        {          
-            IEnumerable<Product> productList = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages,ApplicationUser");
-            return View(productList);
+        public IActionResult Index(string searchTerm)
+        {
+            IEnumerable<Product> products;
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                products = _unitOfWork.Product.GetAll(u => u.Name.Contains(searchTerm), includeProperties: "Category,ProductImages,ApplicationUser");
+            }
+            else
+            {
+                products = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages,ApplicationUser");
+            }
+
+            return View(products);
         }
+
+        public IActionResult All(string searchTerm)
+        {
+            IEnumerable<Product> products;
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                products = _unitOfWork.Product.GetAll(u => u.Name.Contains(searchTerm), includeProperties: "Category,ProductImages,ApplicationUser");
+            }
+            else
+            {
+                products = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages,ApplicationUser");
+            }
+
+            return View(products);
+
+        }
+
+        //public IActionResult Search(string search)
+        //{
+        //    var movies = _unitOfWork.Movie.GetAll(m => m.Title.Contains(search) || m.Description.Contains(search), includeProperties: "MovieCategories.Category").ToList();
+        //    ViewBag.Categories = new SelectList(_unitOfWork.Category.GetAll(), "Id", "Name");
+        //    return View("Index", movies);
+        //}
+        public IActionResult Category1(string searchTerm)
+        {
+            IEnumerable<Product> products;
+            
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                products = _unitOfWork.Product.GetAll(u => u.Name.Contains(searchTerm) && u.CategoryId == 1, 
+                    includeProperties: "Category,ProductImages,ApplicationUser");
+            }
+            else
+            {
+                products = _unitOfWork.Product.GetAll(u => u.CategoryId == 1,
+                    includeProperties: "Category,ProductImages,ApplicationUser");
+            }
+
+            return View(products);
+        }
+
+        public IActionResult Category2(string searchTerm)
+        {
+            IEnumerable<Product> products;
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                products = _unitOfWork.Product.GetAll(u => u.Name.Contains(searchTerm) && u.CategoryId == 2,
+                    includeProperties: "Category,ProductImages,ApplicationUser");
+            }
+            else
+            {
+                products = _unitOfWork.Product.GetAll(u => u.CategoryId == 2,
+                    includeProperties: "Category,ProductImages,ApplicationUser");
+            }
+
+            return View(products);
+        }
+
+        public IActionResult Category3(string searchTerm)
+        {
+            IEnumerable<Product> products;
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                products = _unitOfWork.Product.GetAll(u => u.Name.Contains(searchTerm) && u.CategoryId == 3,
+                    includeProperties: "Category,ProductImages,ApplicationUser");
+            }
+            else
+            {
+                products = _unitOfWork.Product.GetAll(u => u.CategoryId == 3,
+                    includeProperties: "Category,ProductImages,ApplicationUser");
+            }
+
+            return View(products);
+        }
+
+        public IActionResult Category4(string searchTerm)
+        {
+            IEnumerable<Product> products;
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                products = _unitOfWork.Product.GetAll(u => u.Name.Contains(searchTerm) && u.CategoryId == 4,
+                    includeProperties: "Category,ProductImages,ApplicationUser");
+            }
+            else
+            {
+                products = _unitOfWork.Product.GetAll(u => u.CategoryId == 4,
+                    includeProperties: "Category,ProductImages,ApplicationUser");
+            }
+
+            return View(products);
+        }
+
+        public IActionResult Category5(string searchTerm)
+        {
+            IEnumerable<Product> products;
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                products = _unitOfWork.Product.GetAll(u => u.Name.Contains(searchTerm) && u.CategoryId == 5,
+                    includeProperties: "Category,ProductImages,ApplicationUser");
+            }
+            else
+            {
+                products = _unitOfWork.Product.GetAll(u => u.CategoryId == 5,
+                    includeProperties: "Category,ProductImages,ApplicationUser");
+            }
+
+            return View(products);
+        }
+
+        
+        //public IActionResult Search(string searchTerm)
+        //{
+        //    IEnumerable<Product> products;
+
+        //    if (!string.IsNullOrEmpty(searchTerm))
+        //    {
+        //        products = _unitOfWork.Product.GetAll(p => p.CategoryId == 1);
+        //    }
+        //    else
+        //    {
+        //        products = _unitOfWork.Product.GetAll();
+        //    }
+
+        //    return View(products);
+        //}
 
         public IActionResult Details(int productId)
         {           

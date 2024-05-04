@@ -11,12 +11,12 @@
                 </div>
             </div>
         </div>
-        <div class="card-body">
+        <div class="card-body" style="background-color:#FFFCC7">
             <div class="py-3">
                 <div class="row">
                     <div class="col-6 col-md-2 offset-lg-1 pb-1">
-                        <a asp-action="Index" class="btn btn-outline-primary bg-gradient mb-5 fw-semibold btn-sm text-uppercase">
-                            <small>Back to home</small>
+                        <a asp-action="All" class="btn btn-primary bg-gradient mb-5 fw-semibold btn-sm text-uppercase">
+                            <span>Back to home</span>
                         </a>
                     </div>
                 </div>
@@ -66,28 +66,19 @@
                         </div>                       
                         <div class="row ps-2 mt-3">
                             <h6 class="text-dark text-opacity-75  pb-2">
-                                 Price:
-                                <span>
-                                    @Model.Product.Price.ToString("c")
-                                </span>
+                                Seller: <span>@Model.Product.ApplicationUser.Name</span>
                             </h6>
                             <h6 class="text-dark text-opacity-75  pb-2">
-                                Seller:
-                                <span>
-                                    @Model.Product.ApplicationUser.Name
-                                </span>
-                            </h6>
+                                 Price: <span>@Model.Product.Price.ToString("c")</span>
+                            </h6>                           
                             <h6 class="text-dark text-opacity-75  pb-2">
-                                Condition:
-                                <span>
-                                    @Model.Product.Condition
-                                </span>
+                                Condition: <span>@Model.Product.Condition</span>
                             </h6>
                         </div>                        
                         <div class="row pl-2 my-3">
-                            <p class="text-secondary lh-sm">@Html.Raw(Model.Product.Description)</p>
+                            <p class="text-secondary lh-sm" style="width:70%">@Html.Raw(Model.Product.Description)</p>
                         </div>
-                        <div class="row pl-2 mb-3 mt-5">
+                        @* <div class="row pl-2 mb-3 mt-5">
                             <div class="col-md-4">
                                 <div class="input-group mb-3">
                                     <span class="input-group-text bg-primary text-white border-0 fw-semibold"
@@ -99,7 +90,7 @@
 
                                 </div>
                             </div>
-                        </div>
+                        </div> *@
                         <div class="row">
                             <div class="col-12 col-md-6 pb-1">
                                 <button type="submit" 

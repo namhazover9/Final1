@@ -1,0 +1,92 @@
+﻿@model IEnumerable<Product>
+
+
+<div class="row pb-3">
+
+    <div class="d-flex justify-content-center pb-3 pt-2">
+        <span></span>
+        <ul class="list-group list-group-horizontal-sm">
+            <a style="text-decoration:none; width:20%;" asp-controller="Home" asp-action="All">
+            <li class="list-group-item btn-secondary " style="display:flex; height:100%; align-items:center; justify-content:center">All</li>
+            </a>
+            <a style="text-decoration:none; width:20%;" asp-controller="Home" asp-action="Category1">
+            <li class="list-group-item btn-primary" style="display:flex; height:100%; align-items:center; justify-content:center">Men's Clothing & Shoes</li>
+            </a>
+            <a style="text-decoration:none; width:20%;" asp-controller="Home" asp-action="Category2">
+            <li class="list-group-item btn-secondary" style="display:flex; height:100%; align-items:center; justify-content:center">Women's Clothing & Shoes</li>
+            </a>
+            <a style="text-decoration:none; width:20%;" asp-controller="Home" asp-action="Category3">
+            <li class="list-group-item btn-primary" style="display:flex; height:100%; align-items:center; justify-content:center">Unisex Clothing</li>
+            </a>
+            <a style="text-decoration:none; width:20%;" asp-controller="Home" asp-action="Category4">
+            <li class="list-group-item btn-secondary" style="display:flex; height:100%; align-items:center; justify-content:center">Jewelry & Accessories</li>
+            </a>
+            <a style="text-decoration:none; width:20%;" asp-controller="Home" asp-action="Category5">
+            <li class="list-group-item btn-primary" style="display:flex; height:100%; align-items:center; justify-content:center">Bags & Luggages</li>
+            </a>
+        </ul>
+    </div>
+
+    <div class="row text-center">
+        <h3 class="btn-secondary mb-3" style="padding: 0.5rem 0">All Clothing</h3>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3 ">
+            <form asp-controller="Home" asp-action="All" method="get" class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Search for products..."
+                       aria-label="Search" aria-describedby="button-search" id="searchTerm" name="searchTerm">
+                <button class="btn btn-secondary" type="submit">
+                    <i class="bi bi-search"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+       
+    @if (Model.Any() && Model != null)
+    {
+        @foreach (var product in Model.OrderByDescending(u=>u.Price))
+        {
+            @if (product.Status == "Available" && product.isBrowsed == "Approved")
+            {
+                <div class="col-lg-3 col-sm-6" style="padding-bottom:10px;">
+                    <div class="row p-2">
+                        <div class="col-12 p-1">
+                            <div class="card p-3 shadow rounded" style="background-color:transparent; border:2px solid #68C7C1 !important">
+                                @if (product.ProductImages != null && product.ProductImages.Count() > 0)
+                                {
+                                    <a asp-action="Details" asp-route-productId="@product.Id">
+                                        <div class="fadein my-image-container">
+                                            <img src="@product.ProductImages.FirstOrDefault().ImageUrl" class="card-img-top rounded myImage" />
+                                        </div>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <img src="https://placehold.co/500x600/png" class="card-img-top rounded" />
+                                }
+                                <div class="card-body pb-0">
+                                    <div class="pl-1">
+                                        <p class="card-title h5 text-dark text-uppercase text-center">@product.Name</p>
+                                    </div>
+                                    <div class="pl-1">
+                                        <p class="text-dark text-opacity-75 text-center mb-0">
+                                            Price:<span>@product.Price.ToString("c")</span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="mt-2">
+                                    <a asp-action="Details"
+                                       asp-route-productId="@product.Id" class="btn btn-secondary bg-gradient border-0 form-control">
+                                        Details
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    }
+</div>
