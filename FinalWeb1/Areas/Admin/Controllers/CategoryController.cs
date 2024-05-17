@@ -1,9 +1,12 @@
-﻿using FinalWeb1.DataAccess.Data;
+﻿using FinalWeb1.Areas.Customer.Controllers;
+using FinalWeb1.DataAccess.Data;
 using FinalWeb1.DataAccess.Repository.IRepository;
 using FinalWeb1.Models;
 using FinalWeb1.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OpenAI_API;
+using OpenAI_API.Completions;
 
 namespace FinalWeb1.Areas.Admin.Controllers
 {
@@ -11,17 +14,22 @@ namespace FinalWeb1.Areas.Admin.Controllers
     [Authorize(Roles = SD.Role_Admin)]
     public class CategoryController : Controller
     {
+        private readonly ILogger<HomeController> _logger;
         private readonly IUnitOfWork _unitOfWork;
+        
 
-        public CategoryController(IUnitOfWork unitOfWork)
+        public CategoryController(ILogger<HomeController> logger,IUnitOfWork unitOfWork)
         {
+            _logger = logger;
             _unitOfWork = unitOfWork;
+           
         }
         public IActionResult Index()
         {
             List<Category> objCategoryList = _unitOfWork.Category.GetAll().ToList();
             return View(objCategoryList);
         }
+
 
         // Create
         public IActionResult Create()

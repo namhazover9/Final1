@@ -5,8 +5,15 @@ using FinalWeb1.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
+using OpenAI_API;
+using OpenAI_API.Completions;
 using System.Diagnostics;
 using System.Security.Claims;
+using System.Text;
+
+
+
 
 namespace FinalWeb1.Areas.Customer.Controllers
 {
@@ -15,13 +22,16 @@ namespace FinalWeb1.Areas.Customer.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IUnitOfWork _unitOfWork;
+        
 
         public HomeController(ILogger<HomeController> logger, IUnitOfWork unitOfWork)
         {
             _logger = logger;
             _unitOfWork = unitOfWork;
+                      
         }
 
+       
         public IActionResult Index(string searchTerm)
         {
             IEnumerable<Product> products;
@@ -38,19 +48,32 @@ namespace FinalWeb1.Areas.Customer.Controllers
             return View(products);
         }
 
-        public IActionResult All(string searchTerm)
+        
+        public IActionResult All(string searchTerm, string sortOrder)
         {
             IEnumerable<Product> products;
 
             if (!string.IsNullOrEmpty(searchTerm))
             {
                 products = _unitOfWork.Product.GetAll(u => u.Name.Contains(searchTerm), includeProperties: "Category,ProductImages,ApplicationUser");
-            }
+            } 
             else
             {
                 products = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages,ApplicationUser");
             }
 
+            switch(sortOrder)
+            {
+                case "desc":
+                    products = products.OrderByDescending(p => p.Price);
+                    break;
+                case "asc":
+                    products = products.OrderBy(p => p.Price);
+                    break;
+                default:
+                    products = products.OrderBy(p => p.Name);
+                    break;
+            }
             return View(products);
 
         }
@@ -61,7 +84,7 @@ namespace FinalWeb1.Areas.Customer.Controllers
         //    ViewBag.Categories = new SelectList(_unitOfWork.Category.GetAll(), "Id", "Name");
         //    return View("Index", movies);
         //}
-        public IActionResult Category1(string searchTerm)
+        public IActionResult Category1(string searchTerm, string sortOrder)
         {
             IEnumerable<Product> products;
             
@@ -76,10 +99,22 @@ namespace FinalWeb1.Areas.Customer.Controllers
                     includeProperties: "Category,ProductImages,ApplicationUser");
             }
 
+            switch (sortOrder)
+            {
+                case "desc":
+                    products = products.OrderByDescending(p => p.Price);
+                    break;
+                case "asc":
+                    products = products.OrderBy(p => p.Price);
+                    break;
+                default:
+                    products = products.OrderBy(p => p.Name);
+                    break;
+            }
             return View(products);
         }
 
-        public IActionResult Category2(string searchTerm)
+        public IActionResult Category2(string searchTerm, string sortOrder)
         {
             IEnumerable<Product> products;
 
@@ -94,10 +129,22 @@ namespace FinalWeb1.Areas.Customer.Controllers
                     includeProperties: "Category,ProductImages,ApplicationUser");
             }
 
+            switch (sortOrder)
+            {
+                case "desc":
+                    products = products.OrderByDescending(p => p.Price);
+                    break;
+                case "asc":
+                    products = products.OrderBy(p => p.Price);
+                    break;
+                default:
+                    products = products.OrderBy(p => p.Name);
+                    break;
+            }
             return View(products);
         }
 
-        public IActionResult Category3(string searchTerm)
+        public IActionResult Category3(string searchTerm, string sortOrder)
         {
             IEnumerable<Product> products;
 
@@ -111,43 +158,76 @@ namespace FinalWeb1.Areas.Customer.Controllers
                 products = _unitOfWork.Product.GetAll(u => u.CategoryId == 3,
                     includeProperties: "Category,ProductImages,ApplicationUser");
             }
-
+            switch (sortOrder)
+            {
+                case "desc":
+                    products = products.OrderByDescending(p => p.Price);
+                    break;
+                case "asc":
+                    products = products.OrderBy(p => p.Price);
+                    break;
+                default:
+                    products = products.OrderBy(p => p.Name);
+                    break;
+            }
             return View(products);
         }
 
-        public IActionResult Category4(string searchTerm)
+        public IActionResult Category4(string searchTerm, string sortOrder)
         {
             IEnumerable<Product> products;
 
             if (!string.IsNullOrEmpty(searchTerm))
             {
-                products = _unitOfWork.Product.GetAll(u => u.Name.Contains(searchTerm) && u.CategoryId == 4,
+                products = _unitOfWork.Product.GetAll(u => u.Name.Contains(searchTerm) && u.CategoryId == 12,
                     includeProperties: "Category,ProductImages,ApplicationUser");
             }
             else
             {
-                products = _unitOfWork.Product.GetAll(u => u.CategoryId == 4,
+                products = _unitOfWork.Product.GetAll(u => u.CategoryId == 12,
                     includeProperties: "Category,ProductImages,ApplicationUser");
             }
-
+            switch (sortOrder)
+            {
+                case "desc":
+                    products = products.OrderByDescending(p => p.Price);
+                    break;
+                case "asc":
+                    products = products.OrderBy(p => p.Price);
+                    break;
+                default:
+                    products = products.OrderBy(p => p.Name);
+                    break;
+            }
             return View(products);
         }
 
-        public IActionResult Category5(string searchTerm)
+        public IActionResult Category5(string searchTerm, string sortOrder)
         {
             IEnumerable<Product> products;
 
             if (!string.IsNullOrEmpty(searchTerm))
             {
-                products = _unitOfWork.Product.GetAll(u => u.Name.Contains(searchTerm) && u.CategoryId == 5,
+                products = _unitOfWork.Product.GetAll(u => u.Name.Contains(searchTerm) && u.CategoryId == 13,
                     includeProperties: "Category,ProductImages,ApplicationUser");
             }
             else
             {
-                products = _unitOfWork.Product.GetAll(u => u.CategoryId == 5,
+                products = _unitOfWork.Product.GetAll(u => u.CategoryId == 13,
                     includeProperties: "Category,ProductImages,ApplicationUser");
             }
-
+            switch (sortOrder)
+            {
+                case "desc":
+                    products = products.OrderByDescending(p => p.Price);
+                    break;
+                case "asc":
+                    products = products.OrderBy(p => p.Price);
+                    break;
+                default:
+                    products = products.OrderBy(p => p.Name);
+                    break;
+            }
             return View(products);
         }
 
@@ -208,7 +288,7 @@ namespace FinalWeb1.Areas.Customer.Controllers
             }
             
             TempData["success"] = "Cart updated successfully";
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(All));
         }
 
         public IActionResult Privacy()

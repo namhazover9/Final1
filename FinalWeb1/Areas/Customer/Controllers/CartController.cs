@@ -3,6 +3,8 @@ using FinalWeb1.Models;
 using FinalWeb1.Models.ViewModels;
 using FinalWeb1.Utility;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Stripe.BillingPortal;
 using Stripe.Checkout;
@@ -16,11 +18,13 @@ namespace FinalWeb1.Areas.Customer.Controllers
     {
       
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IEmailSender _emailSender;
 		[BindProperty] // This attribute is used to bind the ShoppingCartVM object to the view
 		public ShoppingCartVM ShoppingCartVM { get; set; }
-        public CartController(IUnitOfWork unitOfWork)
+        public CartController(IUnitOfWork unitOfWork, IEmailSender emailSender)
         {
             _unitOfWork = unitOfWork;
+            _emailSender = emailSender;
         }
 
         public IActionResult Index()
@@ -42,7 +46,7 @@ namespace FinalWeb1.Areas.Customer.Controllers
             {
                 cart.Product.ProductImages = productImages.Where(u => u.ProductId == cart.Product.Id).ToList(); // get the product images
                 cart.Price = GetPrice(cart);
-                ShoppingCartVM.OrderHeader.OrderTotal += (cart.Price * cart.Count);
+                ShoppingCartVM.OrderHeader.OrderTotal += (cart.Price );
             }
 
             return View(ShoppingCartVM);
@@ -75,7 +79,7 @@ namespace FinalWeb1.Areas.Customer.Controllers
             foreach (var cart in ShoppingCartVM.ShoppingCartList)
             {
                 cart.Price = GetPrice(cart);
-                ShoppingCartVM.OrderHeader.OrderTotal += (cart.Price * cart.Count);
+                ShoppingCartVM.OrderHeader.OrderTotal += (cart.Price );
             }
             return View(ShoppingCartVM);
         }
@@ -101,7 +105,7 @@ namespace FinalWeb1.Areas.Customer.Controllers
 			foreach (var cart in ShoppingCartVM.ShoppingCartList)
 			{               
 				cart.Price = GetPrice(cart);
-				ShoppingCartVM.OrderHeader.OrderTotal += (cart.Price * cart.Count);
+				ShoppingCartVM.OrderHeader.OrderTotal += (cart.Price );
 			}
 
 			// update the order status and payment status
@@ -152,7 +156,7 @@ namespace FinalWeb1.Areas.Customer.Controllers
                             Name = item.Product.Name
                         }
                     },
-                    Quantity = item.Count 
+                    Quantity = item.Count
                 };
                 options.LineItems.Add(sessionLineItem); // add the item to the line items
             }
@@ -174,10 +178,56 @@ namespace FinalWeb1.Areas.Customer.Controllers
             Stripe.Checkout.Session session = service.Get(orderHeader.SessionId); 
             if(session.PaymentStatus == "paid")
             {
+
+                string subject = "Order Confirmed " + orderHeader.Id;
+
                 _unitOfWork.OrderHeader.UpdateStripePaymentID(id, session.Id, session.PaymentIntentId); 
                 _unitOfWork.OrderHeader.UpdateStatus(id, SD.StatusApproved, SD.PaymentStatusApproved);
                 _unitOfWork.Save();
                 HttpContext.Session.Clear();
+
+                // Tạo nội dung HTML cho email
+                string message = $@"<!DOCTYPE html>
+                    <html lang='en'>
+                    <head>
+                        <meta charset='UTF-8'>
+                        <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+                        <title>Booking Confirm</title>
+                        <style>
+                            .booking-confirm {{
+                                max-width: 600px;
+                                margin: 0 auto;
+                                padding: 20px;
+                                background-color: #f4f4f4;
+                                border-radius: 10px;
+                            }}
+                            .booking-confirm .fw-bold {{
+                                font-weight: bold;
+                            }}
+                            .booking-confirm .text-muted {{
+                                color: #6c757d;
+                            }}
+                            .booking-confirm .bg-info {{
+                                background-color: #0d6efd;
+                            }}
+                            .booking-confirm .text-info {{
+                                color: #0d6efd;
+                            }}
+                            .booking-confirm .bg-light {{
+                                background-color: #f8f9fa;
+                            }}
+                        </style>
+                    </head>
+                    <body>
+                        <div class=""booking-confirm"">
+                            <h4 class=""text-info"">Order Successfully</h4>
+                
+                        </div>
+                    </body>
+                    </html>
+                    ";
+
+                _emailSender.SendEmailAsync(orderHeader.ApplicationUser.Email, subject, message);
             }
             List<ShoppingCart> shoppingCarts = _unitOfWork.ShoppingCart
                 .GetAll(u => u.ApplicationUserId == orderHeader.ApplicationUserId).ToList(); 

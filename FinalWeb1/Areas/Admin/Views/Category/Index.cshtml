@@ -51,8 +51,41 @@
         </table>
 
     </div>
+
+    
+
+  
+
 </div>
 
+@* @section scripts {
+    <script>
+
+
+        function displayMessage(sender, message) {
+            var chatBox = document.getElementById("chat-box");
+            var messageElement = document.createElement("div");
+            messageElement.innerHTML = "<strong>" + sender + ":</strong> " + message;
+            chatBox.appendChild(messageElement);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function sendMessage() {
+            var userInput = document.getElementById("user-input").value;
+            if (userInput.trim() !== "") {
+                displayMessage("You", userInput);
+                $.post("/Category/SendMessageToOpenAI", { message: userInput })
+                    .done(function (response) {
+                        displayMessage("ChatGPT", response);
+                    })
+                    .fail(function (error) {
+                        displayMessage("Error", "Failed to get response from ChatGPT.");
+                    });
+                document.getElementById("user-input").value = "";
+            }
+        }
+    </script>
+} *@
 
 @* @section Scripts {
     <script src="~/js/category.js"></script>

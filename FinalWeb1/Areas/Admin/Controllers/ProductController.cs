@@ -7,6 +7,7 @@ using FinalWeb1.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Security.Claims;
 
 namespace FinalWeb1.Areas.Admin.Controllers
 {
@@ -23,52 +24,23 @@ namespace FinalWeb1.Areas.Admin.Controllers
         }
         public IActionResult Index()
         {
-            List<Product> objProductList = _unitOfWork.Product.GetAll(includeProperties: "Category").ToList();          
+            List<Product> objProductList = _unitOfWork.Product.GetAll(includeProperties: "Category").ToList();
             return View(objProductList);
+
         }
-
-        //// Browse
-        //public IActionResult Browse(int? id)
-        //{
-        //    var browseList = new List<string> {
-        //        "Pending",
-        //        "Approved",
-        //        "Denied"};
-        //    ViewBag.BrowseList = new SelectList(browseList);
-        //    if (id == null || id == 0)
-        //    {
-        //        return NotFound();
-        //    }
-        //    Product? product = _unitOfWork.Product.Get(u => u.Id == id,includeProperties: "Category,ApplicationUser");
-        //    if (product == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return View(product);
-        //}
-
-        //[HttpPost]
-        //public IActionResult Browse(Product obj)
-        //{
-            
-        //    _unitOfWork.Product.Update(obj);
-        //    _unitOfWork.Save();
-        //    TempData["success"] = "Product browsed successfully";
-        //    return RedirectToAction("Index");
-        //}    
-            
-        
+       
         // GET - UPSERT
         public IActionResult Browse(int? id)
         {
             var browseList = new List<string> {
                 "Pending",
                 "Approved",
-                "Denied"};
+                "Denied",
+            };
             ViewBag.BrowseList = new SelectList(browseList);
-
             ProductVM productVM = new() // to pass the product and category list to the view
             {
+
                 CategoryList = _unitOfWork.Category.GetAll().Select(u => new SelectListItem
                 {
                     Text = u.Name,
@@ -79,6 +51,7 @@ namespace FinalWeb1.Areas.Admin.Controllers
             if (id == null || id == 0)
             {
                 //create
+                productVM.Product.ApplicationUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                 return View(productVM);
             }
             else
@@ -97,6 +70,7 @@ namespace FinalWeb1.Areas.Admin.Controllers
             {
                 if (productVM.Product.Id == 0)
                 {
+                    productVM.Product.ApplicationUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                     _unitOfWork.Product.Add(productVM.Product);
                 }
                 else
@@ -161,32 +135,38 @@ namespace FinalWeb1.Areas.Admin.Controllers
             }
         }
 
-        //public IActionResult DeleteImage(int imageId)
-        //{
-        //    var imageToBeDeleted = _unitOfWork.ProductImage.Get(u => u.Id == imageId); // to get the image to be deleted
-        //    int productId = imageToBeDeleted.ProductId; // to get the product id
-        //    if (imageToBeDeleted != null)
-        //    {
-        //        if (!string.IsNullOrEmpty(imageToBeDeleted.ImageUrl)) // to check if the image exists
-        //        {
-        //            var oldImagePath =
-        //                           Path.Combine(_webHostEnvironment.WebRootPath,
-        //                           imageToBeDeleted.ImageUrl.TrimStart('\\')); // to get the image path
 
-        //            if (System.IO.File.Exists(oldImagePath))
-        //            {
-        //                System.IO.File.Delete(oldImagePath);
-        //            }
-        //        }
+        // Delete
+        public IActionResult SoftDelete(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
 
-        //        _unitOfWork.ProductImage.Remove(imageToBeDeleted);
-        //        _unitOfWork.Save();
+            Product? product = _unitOfWork.Product.Get(u => u.Id == id);
 
-        //        TempData["success"] = "Deleted successfully";
-        //    }
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return View(product);
+        }
+        [HttpPost, ActionName("SoftDelete")]
+        public IActionResult SoftDeletePOST(int? id)
+        {
+            Product? obj = _unitOfWork.Product.Get(u => u.Id == id);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+            obj.IsDeleted = true;
+            _unitOfWork.Product.Update(obj);
+            _unitOfWork.Save();
+            TempData["success"] = "Product deleted successfully";
+            return RedirectToAction("Index");
+        }
 
-        //    return RedirectToAction(nameof(Upsert), new { id = productId });
-        //}
 
         #region API CALLS
 

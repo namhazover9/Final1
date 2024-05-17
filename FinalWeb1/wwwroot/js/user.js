@@ -46,7 +46,9 @@ function loadDataTable() {
                 },
                 "width": "30%"
             }
-        ]
+
+        ],
+        "scrollCollapse": true
     });
 }
 

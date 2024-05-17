@@ -22,12 +22,12 @@ namespace FinalWeb1.Areas.Seller.Controllers
             _unitOfWork = unitOfWork;
             _webHostEnvironment = webHostEnvironment;
         }
-        public ActionResult Index()
+        public IActionResult Index()
         {        
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Get current user Id
-            List<Product> objProductList = _unitOfWork.Product.GetAll(u => u.ApplicationUserId == userId, includeProperties: "Category,ApplicationUser").ToList();
+            List<Product> productList = _unitOfWork.Product.GetAll(u => u.ApplicationUserId == userId, includeProperties: "Category,ApplicationUser").ToList();
             ViewBag.ApplicationUserId = userId;
-            return View(objProductList);
+            return View(productList);
         }
 
         // GET - UPSERT
@@ -161,6 +161,37 @@ namespace FinalWeb1.Areas.Seller.Controllers
             }
 
             return RedirectToAction(nameof(Upsert), new { id = productId });
+        }
+
+        // Delete
+        public IActionResult SoftDelete(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+
+            Product? product = _unitOfWork.Product.Get(u => u.Id == id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return View(product);
+        }
+        [HttpPost, ActionName("SoftDelete")]
+        public IActionResult SoftDeletePOST(int? id)
+        {
+            Product? obj = _unitOfWork.Product.Get(u => u.Id == id);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+            obj.IsDeleted = true;
+            _unitOfWork.Product.Update(obj);
+            _unitOfWork.Save();
+            TempData["success"] = "Product deleted successfully";
+            return RedirectToAction("Index");
         }
 
         #region API CALLS

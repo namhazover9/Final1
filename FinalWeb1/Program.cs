@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Identity;
 using FinalWeb1.Utility;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Stripe;
+using DotNetEnv;
+using static System.Environment;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -49,6 +52,16 @@ builder.Services.AddSession(options =>
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("AllowAll",
+//        builder =>
+//        {
+//            builder.AllowAnyOrigin()
+//                   .AllowAnyMethod()
+//                   .AllowAnyHeader();
+//        });
+//});
 
 var app = builder.Build();
 
@@ -66,7 +79,8 @@ StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey"
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseSession(); 
+app.UseSession();
+//app.UseCors("AllowAll");
 app.MapRazorPages();
 app.MapControllerRoute(
     name: "default",

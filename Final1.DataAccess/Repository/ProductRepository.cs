@@ -30,7 +30,7 @@ namespace FinalWeb1.DataAccess.Repository
                 objFromDb.CategoryId = obj.CategoryId;
                 objFromDb.IsPay = obj.IsPay;
                 objFromDb.isBrowsed = obj.isBrowsed;
-                //objFromDb.ProductConditionId = obj.ProductConditionId;
+                objFromDb.IsDeleted = obj.IsDeleted;
                 objFromDb.ProductImages = obj.ProductImages;
             }
         }

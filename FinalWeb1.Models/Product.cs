@@ -28,7 +28,7 @@ namespace FinalWeb1.Models
         public string? Status { get; set; } = "Available";
         public bool? IsPay { get; set; } = false;
         public bool? IsDeleted { get; set; } = false;
-        public string isBrowsed { get; set; } = "Pending";
+        public string? isBrowsed { get; set; } = "Pending";
         public int CategoryId { get; set; }
         [ForeignKey("CategoryId")]
         [ValidateNever]

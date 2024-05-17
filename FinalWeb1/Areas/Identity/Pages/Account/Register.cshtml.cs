@@ -113,7 +113,6 @@ namespace FinalWeb1.Areas.Identity.Pages.Account
             public string? City { get; set; }
             public string? State { get; set; }
             public string? PostalCode { get; set; }
-            public string? CreditCard { get; set; }
             public string? PhoneNumber { get; set; }
         }
 
@@ -131,7 +130,7 @@ namespace FinalWeb1.Areas.Identity.Pages.Account
             Input = new()
             {
                 // Get the list of roles
-                RoleList = _roleManager.Roles.Select(x => x.Name).Select(i => new SelectListItem
+                RoleList = _roleManager.Roles.Where(x => x.Name == SD.Role_Customer || x.Name == SD.Role_Seller).Select(x => x.Name).Select(i => new SelectListItem
                 {
                     Text = i,
                     Value = i

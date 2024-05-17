@@ -33,7 +33,7 @@
     background-position: center;
     background-attachment: fixed; /* Giữ ảnh nền cố định khi cuộn trang */
     padding: 50px;
-    opacity
+    
 }
 
 .about-img {
@@ -52,4 +52,59 @@
     font-size: 18px;
     line-height: 1.6;
     color: #fff; /* Chữ trắng để dễ đọc trên nền ảnh */
+}
+
+.all-section {
+    background-image: url("https://png.pngtree.com/background/20230519/original/pngtree-store-full-of-in-a-dark-room-picture-image_2654942.jpg"); /* Thay đổi URL ảnh nền */
+    background-size: cover;
+    background-position: bottom;
+    background-attachment: fixed; /* Giữ ảnh nền cố định khi cuộn trang */
+    padding: 4rem;
+}
+
+.men-section {
+    background-image: url("https://miro.medium.com/v2/resize:fit:1400/1*jdANrJGJf64m3IHraFrXqA.jpeg"); /* Thay đổi URL ảnh nền */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Giữ ảnh nền cố định khi cuộn trang */
+    padding: 4rem;
+}
+
+.women-section {
+    background-image: url("https://asset20.ckassets.com/blog/wp-content/uploads/sites/5/2021/12/Womens-Clothing.jpg");
+    background-size: cover;
+    background-position: bottom;
+    background-attachment: fixed; /* Giữ ảnh nền cố định khi cuộn trang */
+    padding: 4rem;
+}
+
+.unisex-section {
+    background-image: url("https://hips.hearstapps.com/harpersbazaar/assets/17/10/1489079585-hbz-hm-00-index.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Giữ ảnh nền cố định khi cuộn trang */
+    padding: 4rem;
+}
+
+.ja-section {
+    background-image: url("https://bournecrisp.com.au/wp-content/uploads/2019/07/accessories-make-or-break-1100x733.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Giữ ảnh nền cố định khi cuộn trang */
+    padding: 4rem;
+}
+
+.bl-section {
+    background-image: url("https://www.coats.com/-/media/coats/end-use/fashion-accessories-travel-and-luggage/handbags/fashion-accessories_-travel-and-luggage-handbags_luggage-and-bags2.jpg?rev=4671a661f3e8411ab9135861f273f9e8&hash=83BA2B2916626289F434558B124B8D03");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Giữ ảnh nền cố định khi cuộn trang */
+    padding: 4rem;
+}
+
+.login-section {
+    background-image: url("../image/cover3.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Giữ ảnh nền cố định khi cuộn trang */
 }

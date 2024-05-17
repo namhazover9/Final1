@@ -1,0 +1,95 @@
+﻿    <title>Record Booking</title>
+    <div class="row">
+        <div class="col-12 col-lg-10 col-xxl-12 d-flex">
+            <div class="card flex-fill">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Record Product Sales By Category</h5>
+                </div>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+                </script>
+                <div>
+                    <canvas id="Booking Record" width="400" height="100"></canvas>
+                </div>
+                <script>
+                    const labels = [@Html.Raw(ViewData["categoryLabels"])];
+
+                    const data = {
+                        labels: labels,
+                        datasets: [{
+                        label: 'categoryTotalProducts',
+                        backgroundColor: [@Html.Raw(ViewData["categoryrgbs"])],
+                            borderColor: 'rgb(255, 99, 132)',
+                        data: [@ViewData["categoryTotalProducts"]],
+                            barPercentage: 0.5,
+                            barThickness: 80,
+                        }]
+                    };
+
+                    const config = {
+                        type: 'pie',
+                        data: data,
+                        options: {
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                            }
+                        }
+                    };
+                </script>
+                <script>
+                    const myChart = new Chart(
+                        document.getElementById('Booking Record'),
+                        config
+                    );
+                </script>
+
+            </div>
+        </div>
+        <div class="col-12 col-lg-10 col-xxl-12 d-flex mt-3" >
+            <div class="card flex-fill">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Record Products Sales By Seller</h5>
+                </div>
+                <div>
+                    <canvas id="BookingRecord" width="400" height="100"></canvas>
+                </div>
+                <script>
+                    const sellerLabels = [@Html.Raw(ViewData["Labels"])];
+                    const sellerTotalQuantity = [@Html.Raw(ViewData["totalProducts"])];
+
+                    const bookingData = {
+                        labels: sellerLabels,
+                        datasets: [{
+                            label: 'Total Quantity',
+                            backgroundColor: 'rgb(255, 99, 132)',
+                            data: sellerTotalQuantity,
+                            barPercentage: 0.5,
+                            barThickness: 80,
+                        }]
+                    };
+
+                    const bookingConfig = {
+                        type: 'bar',
+                        data: bookingData,
+                        options: {
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                            }
+                        }
+                    };
+
+                    const bookingRecord = new Chart(
+                        document.getElementById('BookingRecord'),
+                        bookingConfig
+                    );
+                </script>
+            </div>
+        </div>
+    </div>

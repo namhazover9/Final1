@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - FinalWeb1</title>
+    <title>@ViewData["Title"] SecondFashion</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
    
 
@@ -21,10 +21,18 @@
 
     
 </head>
-<body>
+<body>   
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-primary border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm  box-shadow " style="background-image:linear-gradient(to left, #68c7c1 10%, #f57f5b 20%); 
+            z-index: 5;
+            position: fixed;
+            width: 100%;
+            justify-content: space-between; ">
             <div class="container-fluid">
+                
+                <div class="" style="margin-left: 2rem;width: 5%;margin-right: 30px;border-radius: 50%;overflow: hidden;">
+                    <img src="~/image/logo.png" alt="Logo" class="img-fluid" style="opacity: 0.9;">
+                </div>
                 <a class="navbar-brand text-light" asp-area="" asp-controller="Home" asp-action="Index">SecondFashion</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -32,10 +40,12 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav me-auto">
-                        <li class="nav-item">
+                        @* <li class="nav-item">
                             <a class="nav-link text-light" asp-area="Customer" asp-controller="Home" asp-action="Index">Home</a>
+                        </li> *@
+                        <li class="nav-item">
+                            <a class="nav-link text-light" href="#contact">Contact</a>
                         </li>
-
                         
                         @if (User.IsInRole(SD.Role_Seller))
                         {
@@ -63,6 +73,9 @@
                                     </li>
                                     <li class="nav-item">
                                         <a class="dropdown-item" asp-area="Admin" asp-controller="Transaction" asp-action="Index">Transaction</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="dropdown-item" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
                                     </li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li class="nav-item">
@@ -94,7 +107,7 @@
         </nav>
     </header>
     <div class="container">
-        <main role="main" class="pb-3">
+        <main role="main" class="pb-3" style="padding-top: 6rem">
             <partial name="_Notification" />
             @RenderBody()
         </main>
@@ -103,14 +116,10 @@
     
     
     <!-- Footer -->
-    <footer class="text-center text-lg-start text-white bg-primary mt-3">
-        <!-- Grid container -->
+    <footer id="contact" class="text-center text-lg-start text-white bg-primary mt-3">
         <div class="container p-4 pb-0">
-            <!-- Section: Links -->
             <section class="">
-                <!--Grid row-->
                 <div class="row">
-                    <!-- Grid column -->
                     <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
                         <h6 class="text-uppercase mb-4 font-weight-bold">
                             SecondFashion
@@ -121,11 +130,7 @@
                             Representative: Mr. Le Nguyen Quang Nam - Position: General Director.
                         </p>
                     </div>
-                    <!-- Grid column -->
-
                     <hr class="w-100 clearfix d-md-none" />
-
-                    <!-- Grid column -->
                     <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
                         <h6 class="text-uppercase mb-4 font-weight-bold">Products</h6>
                         <p>
@@ -141,14 +146,8 @@
                             <a class="text-white">Accessories</a>
                         </p>
                     </div>
-                    <!-- Grid column -->
-
                     <hr class="w-100 clearfix d-md-none" />
-
-                    <!-- Grid column -->
                     <hr class="w-100 clearfix d-md-none" />
-
-                    <!-- Grid column -->
                     <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
                         <h6 class="text-uppercase mb-4 font-weight-bold">Contact</h6>
                         <p><i class="bi bi-house-fill"></i> Da Nang, DN 50000, VN</p>
@@ -156,11 +155,8 @@
                         <p><i class="bi bi-telephone-fill"></i> + 84 545 676 11</p>
                         <p><i class="bi bi-printer-fill"></i> + 48 412 567 02</p>
                     </div>
-                    <!-- Grid column -->
-                    <!-- Grid column -->
                     <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
                         <h6 class="text-uppercase mb-4 font-weight-bold">Follow us</h6>
-
                         <!-- Facebook -->
                         <a class="btn btn-primary btn-floating m-1"
                             style="background-color: #3b5998"
@@ -168,7 +164,6 @@
                             role="button">
                             <i class="bi bi-facebook"></i>
                         </a>
-
                         <!-- Twitter -->
                         <a class="btn btn-primary btn-floating m-1"
                             style="background-color: black"
@@ -176,7 +171,6 @@
                             role="button">
                             <i class="bi bi-twitter-x"></i>
                         </a>
-
                         <!-- Google -->
                         <a class="btn btn-primary btn-floating m-1"
                             style="background-color: #dd4b39"
@@ -184,7 +178,6 @@
                             role="button">
                             <i class="bi bi-google"></i>
                         </a>
-
                         <!-- Instagram -->
                         <a class="btn btn-primary btn-floating m-1"
                             style="background-color: #ac2bac"
@@ -192,7 +185,6 @@
                             role="button">
                             <i class="bi bi-instagram"></i>
                         </a>
-
                         <!-- Linkedin -->
                         <a class="btn btn-primary btn-floating m-1"
                             style="background-color: #0082ca"
